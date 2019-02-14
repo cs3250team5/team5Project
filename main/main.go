@@ -10,5 +10,5 @@ func main() {
 	un, pw := userInterface.GetUsernameAndPassword()
 	un = strings.Trim(un, " \r\n")
 	pw = strings.Trim(pw, " \r\n")
-	fmt.Printf("UN: %s PW: %s\n", un, pw)
+	fmt.Printf("Username: %s Password: %s\n", un, pw)
 }
