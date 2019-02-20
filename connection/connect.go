@@ -10,6 +10,11 @@ type Connection struct {
 	Con net.Conn
 }
 
+func MakeConnection(host string, port string) *Connection {
+	var conn Connection
+	conn.Open(host, port)
+	return &conn
+}
 func (connect *Connection) Open(host string, port string) {
 	connection, err := net.Dial("tcp", host+":"+port)
 	if err != nil {
