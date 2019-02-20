@@ -1,4 +1,4 @@
-package connect
+package connection
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ type Connection struct {
 	Con net.Conn
 }
 
-func (connect Connection) Open(host string, port string) {
+func (connect *Connection) Open(host string, port string) {
 	connection, err := net.Dial("tcp", host+":"+port)
 	if err != nil {
 		fmt.Println("Error in Client main: " + err.Error())
@@ -20,11 +20,11 @@ func (connect Connection) Open(host string, port string) {
 	connect.Con = connection
 }
 
-func (connect Connection) write(s string) {
+func (connect *Connection) Write(s string) {
 	fmt.Fprintf(connect.Con, s)
 }
 
-func (connect Connection) read() (string, error) {
+func (connect *Connection) Read() (string, error) {
 	buffer := make([]byte, 1024)
 	numBytes, err := connect.Con.Read(buffer)
 	if err != nil && err.Error() != "EOF" {
@@ -33,7 +33,7 @@ func (connect Connection) read() (string, error) {
 	return string(buffer[:numBytes]), nil
 }
 
-func (connect Connection) Close() {
+func (connect *Connection) Close() {
 	connect.Con.Close()
-	fmt.Println("Connection Closed")
+	fmt.Println("*Connection Closed")
 }
