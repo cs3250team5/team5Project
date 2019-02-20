@@ -6,11 +6,10 @@ import (
 )
 
 func main() {
-	var connection connection.Connection
-	connection.Open("localhost", "8080")
+	connect := connection.MakeConnection("localhost", "8080")
 
-	connection.Write("Message")
+	connect.Write("Message")
 
-	s, _ := connection.Read()
+	s, _ := connect.Read()
 	fmt.Printf(s)
 }
