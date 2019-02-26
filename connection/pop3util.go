@@ -13,12 +13,11 @@ func Pop3Auth(host string, port string, un string, pw string) {
 }
 
 func Interpret(mess string) string{
-	var a string
-	a, err =  hex.DecodeString(mess)
+	var a string 
+	a, err =  hex.DecodeString(mess)// turns the string into a series of bytes in ascii format
 	if err != nil{
 		panic(err)
 	}
-	return string(a)
-	
-	
+	return string(a)//returns the bytes stream translated into ascii 
 }
+
