@@ -1,14 +1,17 @@
 package main
 
 import (
+	"Team5Project/connection"
 	"Team5Project/userInterface"
 	"fmt"
-	"strings"
 )
 
 func main() {
 	un, pw := userInterface.GetUsernameAndPassword()
-	un = strings.Trim(un, " \r\n")
-	pw = strings.Trim(pw, " \r\n")
-	fmt.Printf("Username: %s Password: %s\n", un, pw)
+	conn, err := connection.Pop3Auth("pop.nyx.net", "110", un, pw)
+	defer conn.Close()
+	if err != "err" {
+		s := connection.Pop3List(conn)
+		fmt.Println("Messages in Inbox:", s)
+	}
 }
