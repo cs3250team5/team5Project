@@ -74,7 +74,6 @@ func fixBoundary(lines []string, boundary string) string {
 		}
 	}
 	return message
-
 }
 
 func firstRest(s string) (string, string) {
