@@ -67,17 +67,17 @@ Content-Type: text/html; charset="UTF-8"
 .`
 
 type MailObject struct {
-	to      string
-	from    string
-	date    string
-	subject string
-	message string
+	To      string
+	From    string
+	Date    string
+	Subject string
+	Message string
 }
 
 func main() {
 	mail := ReadLines(msg)
-	fmt.Printf("To: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage: %s\n", mail.to, mail.from, mail.date, mail.subject, mail.message)
-	a := []string{mail.message}
+	fmt.Printf("To: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage: %s\n", mail.To, mail.From, mail.Date, mail.Subject, mail.Message)
+	a := []string{mail.Message}
 	fmt.Print(a)
 }
 
@@ -88,20 +88,20 @@ func ReadLines(s string) MailObject {
 	for i, line := range lines {
 		first, rest := firstRest(line)
 		if first == "To:" {
-			mail.to = rest
+			mail.To = rest
 		}
 		if first == "From:" {
-			mail.from = rest
+			mail.From = rest
 		}
 		if first == "Date:" {
-			mail.date = rest
+			mail.Date = rest
 		}
 		if first == "Subject:" {
-			mail.subject = rest
+			mail.Subject = rest
 		}
 		if first == "Content-Type:" {
 			boundary = pullQuote(line)
-			mail.message = fixBoundary(lines[i:], boundary)
+			mail.Message = fixBoundary(lines[i:], boundary)
 			break
 		}
 	}
@@ -132,14 +132,12 @@ func fixBoundary(lines []string, boundary string) string {
 		first, _ := firstRest(line)
 		if header == true {
 			header = false
-			fmt.Println("Header = true")
 		} else if reader == true {
 			if first == "--"+boundary {
 				break
 			}
 			message = message + lines[i]
 		} else if first == "--"+boundary {
-			fmt.Println("Found boundary")
 			header = true
 			reader = true
 		}
