@@ -56,6 +56,16 @@ func (connect *Connection) Read() (string, error) {
 	return cleanInput(string(buffer[:numBytes])), nil
 }
 
+func (connect *Connection) ReadN(n int) (string, error) {
+	buffer := make([]byte, n)
+	numBytes, err := connect.Con.Read(buffer)
+	if err != nil && err.Error() != "EOF" {
+		return "", err
+	}
+	return string(buffer[:numBytes]), nil
+
+}
+
 func (connect *Connection) Close() {
 	connect.Con.Close()
 	fmt.Println("Connection Closed")

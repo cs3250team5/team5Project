@@ -1,12 +1,6 @@
-package main
+package connection
 
-import (
-	"Team5Project/connection"
-	//	"Team5Project/userInterface"
-	"fmt"
-)
-
-const ex = `X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on hermes.nyx.net
+const msg = `X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on hermes.nyx.net
 X-Spam-Level:
 X-Spam-Status: No, score=-0.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
@@ -66,14 +60,3 @@ Content-Type: text/html; charset="UTF-8"
 
 --000000000000822316058246be95--
 .`
-
-func main() {
-	//	un, pw := userInterface.GetUsernameAndPassword()
-	un, pw := "fbuker", "su$lpHUr.8097"
-	conn, err := connection.Pop3Auth("pop.nyx.net", "110", un, pw)
-	defer conn.Close()
-	if err != "err" {
-		s := connection.Pop3List(conn)
-		fmt.Println("Messages in Inbox:", s)
-	}
-}
