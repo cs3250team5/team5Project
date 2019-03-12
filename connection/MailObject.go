@@ -2,6 +2,9 @@ package connection
 
 import (
 	"strings"
+	"fmt"
+	"io/ioutil"
+	"os"
 )
 
 type MailObject struct {
@@ -94,5 +97,39 @@ func firstRest(s string) (string, string) {
 		return first, rest
 	} else {
 		return "", ""
+	} 
+}
+
+func check(e err){
+	if e != nil{
+		panic(e)
+		}
 	}
+}
+
+func (mail MailObject) save(){
+	f, err := os.create("/temp/"+ mail.From +"_" + mail.Date)
+	check(err)
+	
+	defer f.close()
+	
+	s = bufio.NewWriter(f)
+	m = s.WriteString(mail.from + mail.Date + mail.To + mail.Subject)
+	m = s.WriteString(mail.message)
+	
+	s.Flush()
+	
+}
+
+func Read (file string)(MailObject){
+	f, err := os.Open(file)
+	check(err)
+	defer f.close()
+	
+	var m MailObject
+	m.From = f.ReadLine()
+	m.Date = f.ReadLine()
+	m.To = f.ReadLine()
+	m.message = f.Read()
+	return m
 }
