@@ -34,12 +34,19 @@ func (connect *Connection) ReadLines(bytes int) (string, error) {
 		return "", err
 	}
 	s = cleanInput(string(buffer[:numBytes]))
-	lines := strings.Split(s, "\n")
-	fmt.Println(lines)
-	if lines[len(lines)-2] == "." {
+	if lines := strings.Split(s, "\n"); lines[len(lines)-2] == "." {
 		return s, nil
 	}
-	fmt.Println("Didn't return")
+	for {
+		numBytes, err := connect.Con.Read(buffer)
+		if err != nil && err.Error() != "EOF" {
+			return "", err
+		}
+		s = s + cleanInput(string(buffer[:numBytes]))
+		if lines := strings.Split(s, "\n"); lines[len(lines)-2] == "." {
+			return s, nil
+		}
+	}
 	return s, nil
 }
 
@@ -62,7 +69,7 @@ func (connect *Connection) ReadN(n int) (string, error) {
 	if err != nil && err.Error() != "EOF" {
 		return "", err
 	}
-	return string(buffer[:numBytes]), nil
+	return cleanInput(string(buffer[:numBytes])), nil
 
 }
 
