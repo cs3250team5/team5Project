@@ -32,7 +32,7 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 
 func Pop3List(conn *Connection) string {
 	conn.Write("list\r\n")
-	s, _ := conn.Read()
+	s, _ := conn.ReadLines(1024)
 	first, rest := StringFirstRest(s)
 	if first == "+OK" {
 		return rest

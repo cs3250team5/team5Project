@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strings"
 )
 
 type Connection struct {
@@ -25,6 +26,23 @@ func (connect *Connection) Open(host string, port string) {
 	connect.Con = connection
 }
 
+func (connect *Connection) ReadLines(bytes int) (string, error) {
+	buffer := make([]byte, bytes)
+	var s string
+	numBytes, err := connect.Con.Read(buffer)
+	if err != nil && err.Error() != "EOF" {
+		return "", err
+	}
+	s = cleanInput(string(buffer[:numBytes]))
+	lines := strings.Split(s, "\n")
+	fmt.Println(lines)
+	if lines[len(lines)-2] == "." {
+		return s, nil
+	}
+	fmt.Println("Didn't return")
+	return s, nil
+}
+
 func (connect *Connection) Write(s string) {
 	fmt.Fprintf(connect.Con, s)
 }
@@ -35,10 +53,15 @@ func (connect *Connection) Read() (string, error) {
 	if err != nil && err.Error() != "EOF" {
 		return "", err
 	}
-	return string(buffer[:numBytes]), nil
+	return cleanInput(string(buffer[:numBytes])), nil
 }
 
 func (connect *Connection) Close() {
 	connect.Con.Close()
-	fmt.Println("*Connection Closed")
+	fmt.Println("Connection Closed")
+}
+
+// Removes \r from incoming strings
+func cleanInput(s string) string {
+	return strings.Replace(s, "\r", "", -1)
 }
