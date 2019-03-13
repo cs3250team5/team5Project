@@ -8,11 +8,7 @@ import (
 )
 
 type MailObject struct {
-	To      string
-	From    string
-	Date    string
-	Subject string
-	Message string
+	To, From, Date, Subject, Message string
 }
 
 func ReadLines(s string) MailObject {
@@ -108,23 +104,24 @@ func check(e error) {
 
 func Save(mail MailObject) {
 
-	f, err := os.Create("/temp/" + mail.From + "_" + mail.Date)
+	f, err := os.Create("MAIL1:" + mail.From + "_" + mail.Date + ".txt")
 	check(err)
-	defer f.close()
+	defer f.Close()
 
 	s := bufio.NewWriter(f)
-	m := s.WriteString("From: %s,\n", mail.From)
-	m = s.WriteString("Date: %s,\n", mail.Date)
-	m = s.WriteString("Subject: %s,\n", mail.Subject)
-	m = s.WriteString("Message: %s,\n", mail.message)
+	s.WriteString(mail.From)
+	s.WriteString(mail.Date)
+	s.WriteString(mail.Subject)
+	s.WriteString(mail.Message)
 
 	s.Flush()
+	f.Close()
 
 	fmt.Println("Successfully saved email")
 
 }
 
-/*func Read(file string) MailObject {
+/*func Write(file string) MailObject {
 	var m MailObject
 	f, err := os.Open(file)
 	check(err)

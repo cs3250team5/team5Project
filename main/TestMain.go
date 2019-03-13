@@ -68,9 +68,8 @@ Content-Type: text/html; charset="UTF-8"
 
 func main() {
 	mail := connection.ReadLines(ex)
-	fmt.Println(mail.Message)
+	fmt.Println(mail)
 
-	mailSaved := connection.save(mail)
-	fmt.Println("Saved da email :)")
-
+	connection.Save(mail)
+	fmt.Println("email saved")
 }
