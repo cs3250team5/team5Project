@@ -1,7 +1,6 @@
 package connection
 
 import (
-	"bufio"
 	"fmt"
 	"os"
 	"strings"
@@ -104,21 +103,20 @@ func check(e error) {
 
 func Save(mail MailObject) {
 
-	f, err := os.Create("MAIL1:" + mail.From + "_" + mail.Date + ".txt")
+	f, err := os.Create("MAIL1:" + mail.Subject + "_" + mail.From + "_" + mail.Date + ".txt")
 	check(err)
 	defer f.Close()
 
-	s := bufio.NewWriter(f)
-	s.WriteString(mail.From)
-	s.WriteString(mail.Date)
-	s.WriteString(mail.Subject)
-	s.WriteString(mail.Message)
+	d := []string{"From: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage: " + mail.Message}
 
-	s.Flush()
+	for _, v := range d { //for loop helps write the strings in the file
+		fmt.Fprintln(f, v)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+	}
 	f.Close()
-
-	fmt.Println("Successfully saved email")
-
 }
 
 /*func Write(file string) MailObject {
