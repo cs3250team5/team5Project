@@ -1,10 +1,10 @@
 package connection
 
 import (
-	"strings"
+	"bufio"
 	"fmt"
-	"io/ioutil"
 	"os"
+	"strings"
 )
 
 type MailObject struct {
@@ -97,39 +97,46 @@ func firstRest(s string) (string, string) {
 		return first, rest
 	} else {
 		return "", ""
-	} 
-}
-
-func check(e err){
-	if e != nil{
-		panic(e)
-		}
 	}
 }
 
-func (mail MailObject) save(){
-	f, err := os.create("/temp/"+ mail.From +"_" + mail.Date)
-	check(err)
-	
-	defer f.close()
-	
-	s = bufio.NewWriter(f)
-	m = s.WriteString(mail.from + mail.Date + mail.To + mail.Subject)
-	m = s.WriteString(mail.message)
-	
-	s.Flush()
-	
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }
 
-func Read (file string)(MailObject){
-	f, err := os.Open(file)
+func Save(mail MailObject) {
+
+	f, err := os.Create("/temp/" + mail.From + "_" + mail.Date)
 	check(err)
 	defer f.close()
-	
+
+	s := bufio.NewWriter(f)
+	m := s.WriteString("From: %s,\n", mail.From)
+	m = s.WriteString("Date: %s,\n", mail.Date)
+	m = s.WriteString("Subject: %s,\n", mail.Subject)
+	m = s.WriteString("Message: %s,\n", mail.message)
+
+	s.Flush()
+
+	fmt.Println("Successfully saved email")
+
+}
+
+/*func Read(file string) MailObject {
 	var m MailObject
-	m.From = f.ReadLine()
-	m.Date = f.ReadLine()
-	m.To = f.ReadLine()
-	m.message = f.Read()
+	f, err := os.Open(file)
+	check(err)
+	defer file.close()
+
+
+
+	m.From =
+	m.Date =
+	m.To =
+	m.Subject =
+	m.Message =
 	return m
 }
+*/
