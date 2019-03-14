@@ -3,7 +3,6 @@ package connection
 import (
 	"fmt"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -66,7 +65,7 @@ func fixBoundary(lines []string, boundary string) string {
 			if first == "--"+boundary {
 				break
 			}
-			message = message + lines[i]
+			message = message + "\n" + lines[i]
 		} else if first == "--"+boundary {
 			header = true
 			reader = true
@@ -122,8 +121,8 @@ func Save(mail MailObject) {
 }
 
 func SaveN(mail MailObject, mailNum int) {
-	fileName := strconv.Itoa(mailNum) + "_" + mail.Subject + "_" + cleanFrom(mail.From) + ".txt"
-	fileName = "3_fredrick_buker_test.txt"
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mailNum, mail.Subject, cleanFrom(mail.From))
+	fileName = strings.Replace(fileName, " ", "_", -1)
 	f, err := os.Create(fileName)
 	check(err)
 	defer f.Close()
