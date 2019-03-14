@@ -122,7 +122,9 @@ func Save(mail MailObject) {
 }
 
 func SaveN(mail MailObject, mailNum int) {
-	f, err := os.Create(strconv.Itoa(mailNum) + "_" + mail.Subject + "_" + cleanFrom(mail.From) + ".txt")
+	fileName := strconv.Itoa(mailNum) + "_" + mail.Subject + "_" + cleanFrom(mail.From) + ".txt"
+	fileName = "3_fredrick_buker_test.txt"
+	f, err := os.Create(fileName)
 	check(err)
 	defer f.Close()
 

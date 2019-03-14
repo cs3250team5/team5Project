@@ -26,3 +26,10 @@ func GetUsernameAndPassword() (un, pw string) {
 	pw = GetPassword()
 	return
 }
+
+func GetMessageNumber() string {
+	fmt.Print("Which message to read/download: ")
+	reader := bufio.NewReader(os.Stdin)
+	messNo, _ := reader.ReadString('\n')
+	return strings.TrimSpace(messNo)
+}
