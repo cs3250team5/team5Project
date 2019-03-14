@@ -121,10 +121,10 @@ func Save(mail MailObject) {
 
 /*func Write(file string) MailObject {
 	var m MailObject
+	var lines []string
 	f, err := os.Open(file)
 	check(err)
 	defer file.close()
-
 
 
 	m.From =
