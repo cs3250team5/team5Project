@@ -139,10 +139,10 @@ func SaveN(mail MailObject, mailNum int) {
 
 /*func Write(file string) MailObject {
 	var m MailObject
+	var lines []string
 	f, err := os.Open(file)
 	check(err)
 	defer file.close()
-
 
 
 	m.From =
