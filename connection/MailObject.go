@@ -3,6 +3,7 @@ package connection
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -94,20 +95,38 @@ func firstRest(s string) (string, string) {
 		return "", ""
 	}
 }
+func cleanFrom(s string) string {
+	name := strings.Replace(readUntil(s, "<"), " ", "_", -1)
+	return name
+}
+
+func readUntil(s, delim string) string {
+	s1 := ""
+	for _, c := range s {
+		if string(c) != delim {
+			s1 = s1 + string(c)
+		} else {
+			return s1[:len(s1)-1]
+		}
+	}
+	return s1
+}
 
 func check(e error) {
 	if e != nil {
 		panic(e)
 	}
 }
-
 func Save(mail MailObject) {
+	SaveN(mail, 1)
+}
 
-	f, err := os.Create("MAIL1:" + mail.Subject + "_" + mail.From + "_" + mail.Date + ".txt")
+func SaveN(mail MailObject, mailNum int) {
+	f, err := os.Create(strconv.Itoa(mailNum) + "_" + mail.Subject + "_" + cleanFrom(mail.From) + ".txt")
 	check(err)
 	defer f.Close()
 
-	d := []string{"From: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage: " + mail.Message}
+	d := []string{"From: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
 	for _, v := range d { //for loop helps write the strings in the file
 		fmt.Fprintln(f, v)
@@ -116,7 +135,6 @@ func Save(mail MailObject) {
 			return
 		}
 	}
-	f.Close()
 }
 
 /*func Write(file string) MailObject {
