@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func extractFromList(s string) map[int]int {
+func ExtractFromList(s string) map[int]int {
 	lines := strings.Split(s, "\n")
 	listMap := make(map[int]int)
 	for _, line := range lines[1 : len(lines)-2] {
