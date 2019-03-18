@@ -127,7 +127,7 @@ func SaveN(mail MailObject, mailNum int) {
 	check(err)
 	defer f.Close()
 
-	d := []string{"From: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
+	d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
 	for _, v := range d { //for loop helps write the strings in the file
 		fmt.Fprintln(f, v)
