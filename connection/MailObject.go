@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"io/ioutil"
 )
 
 type MailObject struct {
@@ -138,12 +139,10 @@ func SaveN(mail MailObject, mailNum int) {
 	}
 }
 
-func ReadFile(file string) MailObject {
+func ReadMF(file string) MailObject {
 	var m MailObject
-	var lines []string
-	f, err := os.Open(file)
+	f, err := ioutil.ReadFile(file)
 	check(err)
-	defer file.close()
 	str := string(f)
 	lines := strings.Split(str, "\n")
 	for i, line := range lines{
@@ -154,19 +153,20 @@ func ReadFile(file string) MailObject {
 			m.From = strings.TrimPrefix(line, "From: ")
 		}
 		if strings.HasPrefix(line, "Date: "){
-			m.Date strings.TrimPrefix(line, "Date: ")
+			m.Date = strings.TrimPrefix(line, "Date: ")
 		}
 		if strings.HasPrefix(line, "Subject: "){
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
 		}
 		if strings.HasPrefix(line, "Message: "){
 			var s string
-			for _, line := range lines[i+1:]{
+			for _, line = range lines[i+1:]{
 				s = s + line + "\n"
 			}
 			m.Message = s
 			break
 		}
+	}
 	return m
 }
 
