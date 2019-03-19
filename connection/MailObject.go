@@ -61,7 +61,9 @@ func fixBoundary(lines []string, boundary string) string {
 	for i, line := range lines {
 		first, _ := firstRest(line)
 		if header == true {
-			header = false
+			if line == "" {
+				header = false
+			}
 		} else if reader == true {
 			if first == "--"+boundary {
 				break
