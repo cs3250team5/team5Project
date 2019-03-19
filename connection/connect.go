@@ -27,27 +27,25 @@ func (connect *Connection) Open(host string, port string) {
 }
 
 func (connect *Connection) ReadLines(bytes int) (string, error) {
-	buffer := make([]byte, bytes)
-	var s string
-	numBytes, err := connect.Con.Read(buffer)
+	message, err := connect.ReadN(bytes)
 	if err != nil && err.Error() != "EOF" {
 		return "", err
 	}
-	s = cleanInput(string(buffer[:numBytes]))
-	if lines := strings.Split(s, "\n"); lines[len(lines)-2] == "." {
-		return s, nil
+	message = cleanInput(message)
+	if lines := strings.Split(message, "\n"); lines[len(lines)-2] == "." {
+		return message, nil
 	}
 	for {
-		numBytes, err := connect.Con.Read(buffer)
+		mess, err := connect.ReadN(bytes)
 		if err != nil && err.Error() != "EOF" {
 			return "", err
 		}
-		s = s + cleanInput(string(buffer[:numBytes]))
-		if lines := strings.Split(s, "\n"); lines[len(lines)-2] == "." {
-			return s, nil
+		message = message + cleanInput(mess)
+		if lines := strings.Split(message, "\n"); lines[len(lines)-2] == "." {
+			return message, nil
 		}
 	}
-	return s, nil
+	return message, nil
 }
 
 func (connect *Connection) Write(s string) {
