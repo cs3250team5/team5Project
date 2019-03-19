@@ -50,7 +50,7 @@ func Pop3Retr(conn *Connection, msgNo int, byteNo int) string {
 	message := fmt.Sprintf("RETR %d\r\n", msgNo)
 	fmt.Println(message)
 	conn.Write(message)
-	s, _ := conn.ReadN(byteNo)
+	s, _ := conn.ReadLines(byteNo)
 	fmt.Printf("Retrieved %d\n%s\n", msgNo, s)
 	return s
 }
