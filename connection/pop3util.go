@@ -45,3 +45,10 @@ func StringFirstRest(s string) (string, string) {
 	rest := s[len(first)+1:]
 	return first, rest
 }
+
+func Pop3Retr(conn *Connection, msgNo int, byteNo int) string {
+	
+	conn.Write(fmt.Sprintf("RETR %d\r\n", msgNo))
+	s, _ := conn.ReadN(byteNo)
+	return s
+}
