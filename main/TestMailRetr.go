@@ -17,5 +17,7 @@ func main() {
 	}
 	listMap := connection.ExtractFromList(s)
 	mailMap := connection.RetrieveAll(conn, listMap)
-	fmt.Println("MAP 4\n", mailMap[4])
+	for i := 1; i < 5; i++ {
+		fmt.Printf("Message %d:\n%s\n", i, mailMap[i])
+	}
 }

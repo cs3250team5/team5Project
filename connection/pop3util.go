@@ -47,8 +47,10 @@ func StringFirstRest(s string) (string, string) {
 }
 
 func Pop3Retr(conn *Connection, msgNo int, byteNo int) string {
-	
-	conn.Write(fmt.Sprintf("RETR %d\r\n", msgNo))
+	message := fmt.Sprintf("RETR %d\r\n", msgNo)
+	fmt.Println(message)
+	conn.Write(message)
 	s, _ := conn.ReadN(byteNo)
+	fmt.Printf("Retrieved %d\n%s\n", msgNo, s)
 	return s
 }

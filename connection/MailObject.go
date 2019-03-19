@@ -2,9 +2,9 @@ package connection
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
-	"io/ioutil"
 )
 
 type MailObject struct {
@@ -145,17 +145,17 @@ func ReadMF(file string) MailObject {
 	check(err)
 	str := string(f)
 	lines := strings.Split(str, "\n")
-	for i, line := range lines{
-		if strings.HasPrefix(line, "To: "){
+	for i, line := range lines {
+		if strings.HasPrefix(line, "To: ") {
 			m.To = strings.TrimPrefix(line, "To: ")
 		}
-		if strings.HasPrefix(line, "From: "){
+		if strings.HasPrefix(line, "From: ") {
 			m.From = strings.TrimPrefix(line, "From: ")
 		}
-		if strings.HasPrefix(line, "Date: "){
+		if strings.HasPrefix(line, "Date: ") {
 			m.Date = strings.TrimPrefix(line, "Date: ")
 		}
-		if strings.HasPrefix(line, "Subject: "){
+		if strings.HasPrefix(line, "Subject: ") {
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
 		}
 		
@@ -171,4 +171,3 @@ func ReadMF(file string) MailObject {
 	}
 	return m
 }
-
