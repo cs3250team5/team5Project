@@ -64,7 +64,7 @@ func (connect *Connection) Read() (string, error) {
 }
 
 func (connect *Connection) ReadN(n int) (string, error) {
-	buffer := make([]byte, n)
+	buffer := make([]byte, n*2)
 	numBytes, err := connect.Con.Read(buffer)
 	if err != nil && err.Error() != "EOF" {
 		return "", err

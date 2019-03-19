@@ -2,7 +2,6 @@ package main
 
 import (
 	"Team5Project/connection"
-	"Team5Project/userInterface"
 	"fmt"
 )
 
@@ -11,11 +10,14 @@ func main() {
 	un, pw := "fbuker", "su$lpHUr.8097"
 	conn, err := connection.Pop3Auth("pop.nyx.net", "110", un, pw)
 	defer conn.Close()
+	var s string
 	if err != "err" {
-		s := connection.Pop3List(conn)
+		s = connection.Pop3List(conn)
 		fmt.Println("Messages in Inbox:", s)
 	}
 	listMap := connection.ExtractFromList(s)
 	mailMap := connection.RetrieveAll(conn, listMap)
-	fmt.Println(mailMap)
+	for i := 1; i < 5; i++ {
+		fmt.Printf("Message %d:\n%s\n", i, mailMap[i])
+	}
 }

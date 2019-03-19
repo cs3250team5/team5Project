@@ -2,6 +2,7 @@ package connection
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -138,11 +139,10 @@ func SaveN(mail MailObject, mailNum int) {
 	}
 }
 
-func ReadFile(file string) MailObject {
+func ReadMF(file string) MailObject {
 	var m MailObject
-	f, err := os.Open(file)
+	f, err := ioutil.ReadFile(file)
 	check(err)
-	defer f.Close()
 	str := string(f)
 	lines := strings.Split(str, "\n")
 	for i, line := range lines {
