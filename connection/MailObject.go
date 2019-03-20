@@ -8,7 +8,8 @@ import (
 )
 
 type MailObject struct {
-	To, From, Date, Subject, Message, Key string
+	To, From, Date, Subject, Message string
+	Key                              int
 }
 
 func InterpretLines(s string) MailObject {

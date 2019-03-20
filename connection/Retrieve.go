@@ -2,7 +2,6 @@ package connection
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
@@ -12,8 +11,7 @@ func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
 
 		s := Pop3Retr(conn, k, v)
 		mail := InterpretLines(s)
-		j := strconv.Itoa(k)
-		mail.Key = j
+		mail.Key = k
 		finalMap[k] = mail
 		fmt.Println("\nMessage", k, "\n", mail.To)
 
