@@ -11,7 +11,7 @@ type MailObject struct {
 	To, From, Date, Subject, Message string
 }
 
-func ReadLines(s string) MailObject {
+func InterpretLines(s string) MailObject {
 	var mail MailObject
 	var boundary string
 	lines := strings.Split(s, "\n")
@@ -160,16 +160,16 @@ func ReadMF(file string) MailObject {
 		if strings.HasPrefix(line, "Subject: ") {
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
 		}
-		
-		if strings.HasPrefix(line, "Message:"){
+
+		if strings.HasPrefix(line, "Message:") {
 			var s string
-			for _,Mline := range lines[i+1:]{
-				s = s + Mline +"\n"
+			for _, Mline := range lines[i+1:] {
+				s = s + Mline + "\n"
 			}
 			m.Message = s
 			break
 		}
-		
+
 	}
 	return m
 }
