@@ -158,7 +158,7 @@ func ReadMF(file string) MailObject {
 		if strings.HasPrefix(line, "Subject: ") {
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
 		}
-		if strings.HasPrefix(line, "Message: ") {
+		if strings.HasPrefix(line, "Message:") {
 			var s string
 			for _, line := range lines[i+1:] {
 				s = s + line + "\n"
