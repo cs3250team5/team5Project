@@ -1,33 +1,40 @@
 package main
 
 import (
+	"Team5Project/userInterface"
 	"flag"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
-	"userInterface"
 )
 
 func main() {
 	var defaultUN, defaultPW string
 
-	if _, err := os.Stat("config.g"); !os.IsNotExist(err) {
+	if _, err := os.Stat(".config"); !os.IsNotExist(err) {
 		defaultUN, defaultPW = ParseConfig()
 	} else {
-		defaultUN, defaultPW = userInterface.GetUsernameAndPassword()
+		defaultUN, defaultPW = "", ""
 	}
 
 	un := flag.String("un", defaultUN, "Username")
 	pw := flag.String("pw", defaultPW, "Password")
 	flag.Parse()
 
+	if *un == "" {
+		*un = userInterface.GetUsername()
+	}
+	if *pw == "" {
+		*pw = userInterface.GetPassword()
+	}
+
 	SaveConfig(*un, *pw)
 }
 
 func ParseConfig() (string, string) {
-	config, err := ioutil.ReadFile("config.g")
+	config, err := ioutil.ReadFile(".config")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -44,7 +51,7 @@ username
 password
 */
 func SaveConfig(un, pw string) {
-	file, err := os.OpenFile("config.g", os.O_TRUNC|os.O_CREATE, 0666)
+	file, err := os.OpenFile(".config", os.O_TRUNC|os.O_CREATE, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
