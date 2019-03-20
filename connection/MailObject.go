@@ -9,9 +9,10 @@ import (
 
 type MailObject struct {
 	To, From, Date, Subject, Message string
+	Key                              int
 }
 
-func ReadLines(s string) MailObject {
+func InterpretLines(s string) MailObject {
 	var mail MailObject
 	var boundary string
 	lines := strings.Split(s, "\n")
@@ -61,7 +62,9 @@ func fixBoundary(lines []string, boundary string) string {
 	for i, line := range lines {
 		first, _ := firstRest(line)
 		if header == true {
-			header = false
+			if line == "" {
+				header = false
+			}
 		} else if reader == true {
 			if first == "--"+boundary {
 				break
@@ -160,12 +163,13 @@ func ReadMF(file string) MailObject {
 		}
 		if strings.HasPrefix(line, "Message:") {
 			var s string
-			for _, line := range lines[i+1:] {
-				s = s + line + "\n"
+			for _, Mline := range lines[i+1:] {
+				s = s + Mline + "\n"
 			}
 			m.Message = s
 			break
 		}
+
 	}
 	return m
 }
