@@ -5,10 +5,12 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"strconv"
 )
 
 type MailObject struct {
 	To, From, Date, Subject, Message string
+	Num int
 }
 
 func InterpretLines(s string) MailObject {
@@ -129,8 +131,8 @@ func SaveN(mail MailObject, mailNum int) {
 	f, err := os.Create(fileName)
 	check(err)
 	defer f.Close()
-
-	d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
+	mail.Num = mailNum
+	d := []string{"Num:" + string(mail.Num) +  "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
 	for _, v := range d { //for loop helps write the strings in the file
 		fmt.Fprintln(f, v)
@@ -148,6 +150,12 @@ func ReadMF(file string) MailObject {
 	str := string(f)
 	lines := strings.Split(str, "\n")
 	for i, line := range lines {
+		if strings.HasPrefix(line, "Num:"){
+			n := strings.TrimPrefix(line, "Num:")
+			in , _ := strconv.Atoi(n)
+			fmt.Print(in)
+			m.Num = in
+		}
 		if strings.HasPrefix(line, "To: ") {
 			m.To = strings.TrimPrefix(line, "To: ")
 		}
