@@ -3,6 +3,8 @@ package connection
 import (
 	"fmt"
 	"os"
+	"io/ioutil"
+	"log"
 )
 
 func CheckInbox() bool {
@@ -21,4 +23,17 @@ func CreateInbox() { //creates inbox dependant on boolean from CheckInbox()
 		fmt.Println("There is already an inbox")
 	}
 
+}
+
+func ReadInbox(inbox string) map[int]MailObject{
+	files, err := ioutil.ReadDir(inbox)
+	if err != nil{
+		log.fatal(err)
+	}
+	finalMap := make(map[int]MailObject /*may change*/)
+	for _, file := range files{
+		m := ReadMF(file)
+		finalMap[m.Num] = m
+	}
+	return finalMap
 }
