@@ -45,6 +45,7 @@ func main() {
 
 }
 
+
 func ParseConfig() (string, string) {
 	config, err := ioutil.ReadFile(".config")
 	if err != nil {
