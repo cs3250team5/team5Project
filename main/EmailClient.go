@@ -7,6 +7,8 @@ import (
 )
 
 func main() {
+	
+	//Gathers username and password and call server
 	//un, pw := userInterface.GetUsernameAndPassword()
 	un, pw := "fbuker", "su$lpHUr.8097"
 	conn, err := connection.Pop3Auth("pop.nyx.net", "110", un, pw)
@@ -15,6 +17,7 @@ func main() {
 		s := connection.Pop3List(conn)
 		fmt.Println("Messages in Inbox:", s)
 	}
+	//test the emails
 	//conn.Write("RETR 1\r\n")
 	//message1, _ := conn.ReadN(3153)
 	//fmt.Println(message1)
@@ -22,7 +25,7 @@ func main() {
 	fmt.Println("Retrieving Message", n)
 	conn.Write("RETR 3\r\n")
 	message3, _ := conn.ReadN(11542)
-	mail := connection.ReadLines(message3)
+	mail := connection.MailFilter(message3)
 	fmt.Println("From: ", mail.From)
 	fmt.Println("Subject: ", mail.Subject)
 	connection.SaveN(mail, 3)

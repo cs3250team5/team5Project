@@ -11,7 +11,8 @@ type MailObject struct {
 	To, From, Date, Subject, Message string
 }
 
-func ReadLines(s string) MailObject {
+func MailFilter(s string) MailObject {
+	// String splits 
 	var mail MailObject
 	var boundary string
 	lines := strings.Split(s, "\n")
@@ -56,6 +57,7 @@ func pullQuote(s string) string {
 }
 
 func fixBoundary(lines []string, boundary string) string {
+	// Gatters all lines of message and adjust boundarys
 	message := ""
 	header, reader := false, false
 	for i, line := range lines {
@@ -78,6 +80,7 @@ func fixBoundary(lines []string, boundary string) string {
 }
 
 func firstRest(s string) (string, string) {
+	// Looks at length of string
 	if len(s) > 0 {
 		var first string
 		fields := strings.Fields(s)
@@ -98,11 +101,13 @@ func firstRest(s string) (string, string) {
 	}
 }
 func cleanFrom(s string) string {
+	// Replace " " with "_"
 	name := strings.Replace(readUntil(s, "<"), " ", "_", -1)
 	return name
 }
 
 func readUntil(s, delim string) string {
+	// Reads stirngs and gets rid of last line
 	s1 := ""
 	for _, c := range s {
 		if string(c) != delim {
@@ -114,16 +119,12 @@ func readUntil(s, delim string) string {
 	return s1
 }
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
 func Save(mail MailObject) {
 	SaveN(mail, 1)
 }
 
 func SaveN(mail MailObject, mailNum int) {
+	// Saves emails
 	fileName := fmt.Sprintf("%d_%s_%s.txt", mailNum, mail.Subject, cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	f, err := os.Create(fileName)
@@ -131,8 +132,8 @@ func SaveN(mail MailObject, mailNum int) {
 	defer f.Close()
 
 	d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
-
-	for _, v := range d { //for loop helps write the strings in the file
+	//for loop helps write the strings in the file
+	for _, v := range d { 
 		fmt.Fprintln(f, v)
 		if err != nil {
 			fmt.Println(err)
@@ -142,6 +143,7 @@ func SaveN(mail MailObject, mailNum int) {
 }
 
 func ReadMF(file string) MailObject {
+	// Make email interface better
 	var m MailObject
 	f, err := ioutil.ReadFile(file)
 	check(err)
@@ -160,7 +162,6 @@ func ReadMF(file string) MailObject {
 		if strings.HasPrefix(line, "Subject: ") {
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
 		}
-		
 		if strings.HasPrefix(line, "Message:"){
 			var s string
 			for _,Mline := range lines[i+1:]{
@@ -169,7 +170,12 @@ func ReadMF(file string) MailObject {
 			m.Message = s
 			break
 		}
-		
 	}
 	return m
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }

@@ -7,18 +7,17 @@ import (
 )
 
 func ExtractFromList(s string) map[int]int {
+	// Puts message number and data size into a map
 	lines := strings.Split(s, "\n")
 	listMap := make(map[int]int)
 	for _, line := range lines[1 : len(lines)-2] {
 		y := strings.Split(line, " ")
-		int1, err := strconv.Atoi(y[0])
-		int2, err := strconv.Atoi(y[1])
+		key, err := strconv.Atoi(y[0])
+		value, err := strconv.Atoi(y[1])
 		if err == nil {
-			listMap[int1] = int2
+			listMap[key] = value
 		}
-
 		fmt.Println(listMap)
 	}
-
 	return listMap
 }

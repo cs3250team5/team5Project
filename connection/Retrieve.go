@@ -1,23 +1,18 @@
 package connection
 
 import(
-
 	"fmt"
-	
 )
 
 func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
-
-	finalMap := make(map[int]MailObject/*may change*/)
-	for k, v := range listMap{
-		
-		s := Pop3Retr(conn, k, v)
-		mail := ReadLines(s)
-		finalMap[k] = mail
-		fmt.Println("\nMessage", k, "\n", mail.To)
-
+	// Emails are put into maps based on data size
+	finalMap := make(map[int]MailObject)
+	for key, value := range listMap{
+		s := Pop3Retr(conn, key, value)
+		mail := MailFilter(s)
+		finalMap[key] = mail
+		fmt.Println("\nMessage", key, "\n", mail.To)
 		
 	}
-
 	return finalMap
 }
