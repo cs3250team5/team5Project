@@ -5,7 +5,6 @@ Date: Thu, 21 Feb 2019 15:28:52 -0700
 Subject: Test 3
 Message:
 
-
 In *BattleBlock Theater*, players control a prisoner as they are forced to
 play through games devised by Hatty Hattington. Controls are simple, with
 the game largely consisting of running, jumping and punching. Levels are

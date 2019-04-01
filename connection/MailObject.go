@@ -132,7 +132,7 @@ func SaveN(mail MailObject, mailNum int) {
 	check(err)
 	defer f.Close()
 	mail.Num = mailNum
-	d := []string{"Num:" + string(mail.Num) +  "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
+	d := []string{"Num: " + string(mail.Num) +  "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
 	for _, v := range d { //for loop helps write the strings in the file
 		fmt.Fprintln(f, v)
@@ -150,10 +150,12 @@ func ReadMF(file string) MailObject {
 	str := string(f)
 	lines := strings.Split(str, "\n")
 	for i, line := range lines {
-		if strings.HasPrefix(line, "Num:"){
-			n := strings.TrimPrefix(line, "Num:")
-			in , _ := strconv.Atoi(n)
-			fmt.Print(in)
+		if strings.HasPrefix(line, "Num: "){
+			n := strings.TrimPrefix(line, "Num: ")
+			in , err:= strconv.Atoi(n)
+			if err != nil{
+				fmt.Print(err)
+				}
 			m.Num = in
 		}
 		if strings.HasPrefix(line, "To: ") {
