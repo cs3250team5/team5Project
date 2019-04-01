@@ -28,7 +28,7 @@ func CreateInbox() { //creates inbox dependant on boolean from CheckInbox()
 func ReadInbox(inbox string) map[int]MailObject{
 	files, err := ioutil.ReadDir(inbox)
 	if err != nil{
-		log.fatal(err)
+		log.Fatal(err)
 	}
 	finalMap := make(map[int]MailObject /*may change*/)
 	for _, file := range files{
