@@ -33,12 +33,16 @@ func main() {
 
 	conn, err := connection.Pop3Auth("pop.nyx.net", "110", *un, *pw)
 	defer conn.Close()
-	if err != "err" {
-		s := connection.Pop3List(conn)
-		fmt.Println("Messages in Inbox:", s)
+	if err == "err" {
+		log.Fatal(err)
 	}
-
+	s := connection.Pop3List(conn)
+	
+	messages := connection.RetrieveAll(conn, connection.ExtractFromList(s))
+	fmt.Println(messages)
+	
 	SaveConfig(*un, *pw)
+
 }
 
 func ParseConfig() (string, string) {
