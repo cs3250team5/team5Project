@@ -5,14 +5,15 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
+	"strconv"
 )
 
 type MailObject struct {
 	To, From, Date, Subject, Message string
+	Num int
 }
 
-func MailFilter(s string) MailObject {
-	// String splits 
+func InterpretLines(s string) MailObject {
 	var mail MailObject
 	var boundary string
 	lines := strings.Split(s, "\n")
@@ -130,7 +131,10 @@ func SaveN(mail MailObject, mailNum int) {
 	f, err := os.Create(fileName)
 	check(err)
 	defer f.Close()
+	mail.Num = mailNum
+	d := []string{"Num: " + string(mail.Num) +  "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
+	for _, v := range d { //for loop helps write the strings in the file
 	d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 	//for loop helps write the strings in the file
 	for _, v := range d { 
@@ -150,6 +154,14 @@ func ReadMF(file string) MailObject {
 	str := string(f)
 	lines := strings.Split(str, "\n")
 	for i, line := range lines {
+		if strings.HasPrefix(line, "Num: "){
+			n := strings.TrimPrefix(line, "Num: ")
+			in , err:= strconv.Atoi(n)
+			if err != nil{
+				fmt.Print(err)
+				}
+			m.Num = in
+		}
 		if strings.HasPrefix(line, "To: ") {
 			m.To = strings.TrimPrefix(line, "To: ")
 		}
@@ -162,10 +174,10 @@ func ReadMF(file string) MailObject {
 		if strings.HasPrefix(line, "Subject: ") {
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
 		}
-		if strings.HasPrefix(line, "Message:"){
+		if strings.HasPrefix(line, "Message:") {
 			var s string
-			for _,Mline := range lines[i+1:]{
-				s = s + Mline +"\n"
+			for _, Mline := range lines[i+1:] {
+				s = s + Mline + "\n"
 			}
 			m.Message = s
 			break
