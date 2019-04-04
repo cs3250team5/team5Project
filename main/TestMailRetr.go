@@ -20,4 +20,5 @@ func main() {
 	for i := 1; i < 5; i++ {
 		fmt.Printf("Message %d:\n%s\n", i, mailMap[i])
 	}
+	connection.WriteToInbox(mailMap)
 }

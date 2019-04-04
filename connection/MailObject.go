@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"strings"
+	"path/filepath"
 	"strconv"
+	"strings"
 )
 
 type MailObject struct {
 	To, From, Date, Subject, Message string
-	Num int
+	Num                              int
 }
 
 func InterpretLines(s string) MailObject {
@@ -128,20 +129,26 @@ func SaveN(mail MailObject, mailNum int) {
 	// Saves emails
 	fileName := fmt.Sprintf("%d_%s_%s.txt", mailNum, mail.Subject, cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
-	f, err := os.Create(fileName)
+	dir, err := filepath.Abs("Inbox")
 	check(err)
+
+	f, err := os.Create(filepath.Join(dir, filepath.Base(fileName))) //creates file within local Inbox folder
+	check(err)
+
 	defer f.Close()
 	mail.Num = mailNum
-	d := []string{"Num: " + string(mail.Num) +  "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
+	d := []string{"Num: " + string(mail.Num) + "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
 	for _, v := range d { //for loop helps write the strings in the file
-	d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
-	//for loop helps write the strings in the file
-	for _, v := range d { 
-		fmt.Fprintln(f, v)
-		if err != nil {
-			fmt.Println(err)
-			return
+		_ = v
+		d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
+		//for loop helps write the strings in the file
+		for _, v := range d {
+			fmt.Fprintln(f, v)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
 		}
 	}
 }
@@ -154,12 +161,12 @@ func ReadMF(file string) MailObject {
 	str := string(f)
 	lines := strings.Split(str, "\n")
 	for i, line := range lines {
-		if strings.HasPrefix(line, "Num: "){
+		if strings.HasPrefix(line, "Num: ") {
 			n := strings.TrimPrefix(line, "Num: ")
-			in , err:= strconv.Atoi(n)
-			if err != nil{
+			in, err := strconv.Atoi(n)
+			if err != nil {
 				fmt.Print(err)
-				}
+			}
 			m.Num = in
 		}
 		if strings.HasPrefix(line, "To: ") {

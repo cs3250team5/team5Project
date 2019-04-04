@@ -7,12 +7,12 @@ import (
 func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
 	// Emails are put into maps based on data size
 	finalMap := make(map[int]MailObject)
-	for key, value := range listMap{
+	for key, value := range listMap {
 		s := Pop3Retr(conn, key, value)
-		mail := MailFilter(s)
+		mail := InterpretLines(s)
 		finalMap[key] = mail
 		fmt.Println("\nMessage", key, "\n", mail.To)
-		
+
 	}
 	return finalMap
 }
