@@ -1,7 +1,6 @@
 package connection
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -16,13 +15,9 @@ func CheckInbox() bool {
 }
 
 func CreateInbox() { //creates inbox dependant on boolean from CheckInbox()
-	r := CheckInbox()
-	if r == false {
+	if !CheckInbox() {
 		os.Mkdir("Inbox", os.ModePerm)
-	} else {
-		fmt.Println("There is already an inbox")
 	}
-
 }
 
 func ReadInbox(inbox string) map[int]MailObject {
@@ -38,14 +33,9 @@ func ReadInbox(inbox string) map[int]MailObject {
 	return finalMap
 }
 
-func WriteToInbox(map[int]MailObject) {
-	var m MailObject
-	var k int
-	m.Num = k
-	CheckInbox()
+func WriteToInbox(m map[int]MailObject) {
 	CreateInbox()
-
-	for k := 1; k < 5; k++ {
-		SaveN(m, k)
+	for v := range m {
+		Save(m[v])
 	}
 }

@@ -105,6 +105,7 @@ func firstRest(s string) (string, string) {
 func cleanFrom(s string) string {
 	// Replace " " with "_"
 	name := strings.Replace(readUntil(s, "<"), " ", "_", -1)
+	name = strings.Replace(name, "\"", "", -1)
 	return name
 }
 
@@ -122,12 +123,8 @@ func readUntil(s, delim string) string {
 }
 
 func Save(mail MailObject) {
-	SaveN(mail, 1)
-}
-
-func SaveN(mail MailObject, mailNum int) {
 	// Saves emails
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mailNum, mail.Subject, cleanFrom(mail.From))
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	dir, err := filepath.Abs("Inbox")
 	check(err)
@@ -136,21 +133,8 @@ func SaveN(mail MailObject, mailNum int) {
 	check(err)
 
 	defer f.Close()
-	mail.Num = mailNum
-	d := []string{"Num: " + string(mail.Num) + "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
-
-	for _, v := range d { //for loop helps write the strings in the file
-		_ = v
-		d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
-		//for loop helps write the strings in the file
-		for _, v := range d {
-			fmt.Fprintln(f, v)
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-		}
-	}
+	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, mail.Date, mail.Subject, mail.Message)
+	f.Write([]byte(d))
 }
 
 func ReadMF(file string) MailObject {
@@ -168,20 +152,15 @@ func ReadMF(file string) MailObject {
 				fmt.Print(err)
 			}
 			m.Num = in
-		}
-		if strings.HasPrefix(line, "To: ") {
+		} else if strings.HasPrefix(line, "To: ") {
 			m.To = strings.TrimPrefix(line, "To: ")
-		}
-		if strings.HasPrefix(line, "From: ") {
+		} else if strings.HasPrefix(line, "From: ") {
 			m.From = strings.TrimPrefix(line, "From: ")
-		}
-		if strings.HasPrefix(line, "Date: ") {
+		} else if strings.HasPrefix(line, "Date: ") {
 			m.Date = strings.TrimPrefix(line, "Date: ")
-		}
-		if strings.HasPrefix(line, "Subject: ") {
+		} else if strings.HasPrefix(line, "Subject: ") {
 			m.Subject = strings.TrimPrefix(line, "Subject: ")
-		}
-		if strings.HasPrefix(line, "Message:") {
+		} else if strings.HasPrefix(line, "Message:") {
 			var s string
 			for _, Mline := range lines[i+1:] {
 				s = s + Mline + "\n"

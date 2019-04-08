@@ -10,9 +10,9 @@ func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
 	for key, value := range listMap {
 		s := Pop3Retr(conn, key, value)
 		mail := InterpretLines(s)
+		mail.Num = key
 		finalMap[key] = mail
 		fmt.Println("\nMessage", key, "\n", mail.To)
-
 	}
 	return finalMap
 }
