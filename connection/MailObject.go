@@ -109,6 +109,12 @@ func cleanFrom(s string) string {
 	return name
 }
 
+func cleanDate(s string) string {
+	date := strings.Replace(readUntil(s, "-"), " ", "-", -1)
+	date = strings.Replace(date, "-", " ", -1)
+	return date
+}
+
 func readUntil(s, delim string) string {
 	// Reads stirngs and gets rid of last line
 	s1 := ""
@@ -133,7 +139,7 @@ func Save(mail MailObject) {
 	check(err)
 
 	defer f.Close()
-	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, mail.Date, mail.Subject, mail.Message)
+	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
 	f.Write([]byte(d))
 }
 
