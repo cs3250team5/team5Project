@@ -13,7 +13,7 @@ type MailObject struct {
 	Num int
 }
 
-func InterpretLines(s string) MailObject {
+func MailFilter(s string) MailObject {
 	var mail MailObject
 	var boundary string
 	lines := strings.Split(s, "\n")
@@ -135,6 +135,7 @@ func SaveN(mail MailObject, mailNum int) {
 	d := []string{"Num: " + string(mail.Num) +  "\nTo: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 
 	for _, v := range d { //for loop helps write the strings in the file
+	_ = v
 	d := []string{"To: " + mail.To + "\nFrom: " + mail.From + "\nDate: " + mail.Date + "\nSubject: " + mail.Subject + "\nMessage:\n" + mail.Message}
 	//for loop helps write the strings in the file
 	for _, v := range d { 
@@ -143,6 +144,8 @@ func SaveN(mail MailObject, mailNum int) {
 			fmt.Println(err)
 			return
 		}
+	}
+	
 	}
 }
 

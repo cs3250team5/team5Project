@@ -25,7 +25,7 @@ func main() {
 	fmt.Println("Retrieving Message", n)
 	conn.Write("RETR 3\r\n")
 	message3, _ := conn.ReadLines(11542)
-	mail := connection.InterpretLines(message3)
+	mail := connection.MailFilter(message3)
 	fmt.Println("From: ", mail.From)
 	fmt.Println("Subject: ", mail.Subject)
 	connection.SaveN(mail, 3)
