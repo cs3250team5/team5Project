@@ -43,7 +43,7 @@ func Pop3List(conn *Connection) string {
 }
 
 func StringFirstRest(s string) (string, string) {
-	// fixes bugs were not all email with data size is present 
+	// fixes bugs were not all email with data size is present
 	first := strings.Fields(s)[0]
 	rest := s[len(first)+1:]
 	return first, rest
@@ -55,6 +55,6 @@ func Pop3Retr(conn *Connection, msgNo int, byteNo int) string {
 	fmt.Println(message)
 	conn.Write(message)
 	s, _ := conn.ReadLines(byteNo)
-	fmt.Printf("Retrieved %d\n%s\n", msgNo, s)
+	//fmt.Printf("Retrieved %d\n%s\n", msgNo, s)
 	return s
 }
