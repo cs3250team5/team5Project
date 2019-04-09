@@ -10,17 +10,11 @@ type Profile struct{
 	var Name,Address,Sgun,Sgpw string
 }
 
-type Smail struct{
-	var To,Sub,Mess string
-}
 
-func SmtpLogin(){
-
-
-}
-
-func SmtpEmail(){
-
-
+func Smail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg string){
+	
+	to := composeEmail.EmailTo()
+	sub := composeEmail.EmailSubject()
+	wmsg := composeEmail.EmailMsg()
 
 }

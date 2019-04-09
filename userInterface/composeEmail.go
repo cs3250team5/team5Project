@@ -30,8 +30,8 @@ func EmailMsg() string {
 	// User types message
 	fmt.Print("Write message")
 	reader := bufio.NewReader(os.Stdin)
-	emsg, _ := reader.ReadString('\n')
-	fmt.Print(".\n"
+	wmsg, _ := reader.ReadString('\n')
+	fmt.Print(".\n")
 	return strings.TrimSpace(emsg)
 }
 
