@@ -14,7 +14,7 @@ type MailObject struct {
 	Num                              int
 }
 
-func InterpretLines(s string) MailObject {
+func MailFilter(s string) MailObject {
 	var mail MailObject
 	var boundary string
 	lines := strings.Split(s, "\n")
