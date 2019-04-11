@@ -8,8 +8,7 @@ import (
 )
 
 func GetUsername() string {
-
-	// user tpyes username
+	// user types username
 	fmt.Print("Enter your username: ")
 	reader := bufio.NewReader(os.Stdin)
 	un, _ := reader.ReadString('\n')
@@ -28,20 +27,23 @@ func GetPassword() string {
 func GetUsernameAndPassword() []string {
 	fmt.Println("Is the login information the same for POP3 and SMTP?[y/n]")
 	if yesNo() {
-		un = GetUsername()
-		pw = GetPassword()
+		un := GetUsername()
+		pw := GetPassword()
 		return []string{un, pw}
 	}
 	return nil
 }
 
 //Reads and interprets Yes/No Answers from the user. Does not ask questions
-func yesNo() {
+func yesNo() bool {
 	reader := bufio.NewReader(os.Stdin)
 	for {
-		ans, _ := reader.ReadString("\n")
-		if ans == 'y' || ans == 'n' {
-			return ans
+		ans, _ := reader.ReadString('\n')
+		fmt.Println(ans)
+		if ans == "y" {
+			return true
+		} else if ans == "n" {
+			return false
 		} else {
 			fmt.Println("Answer must be 'y' or 'n': ")
 		}
@@ -57,10 +59,10 @@ func GetMessageNumber() string {
 }
 
 func HelpText() string {
-	helpText = "Team 5 Mail Client Usage:\n" +
+	helpText := "Team 5 Mail Client Usage:\n" +
 		"Command line format:\n" +
-		"\"commandline [FLAG [argument]]*\""
-	"FLAGS:       Function:\n" +
+		"\"commandline [FLAG [argument]]*\"" +
+		"FLAGS:       Function:\n" +
 		"-un          Changes the Username across all scopes (pop/smtp)\n" +
 		"-pw          Changes the Password across all scope\n\n" +
 		"-p3un        Changes the Pop3 Username\n" +
@@ -70,4 +72,5 @@ func HelpText() string {
 		"-host/-h     Changes the Host across all scopes\n" +
 		"-phost/-ph   Changes the Pop3 Host\n" +
 		"-shost/-sh   Changes the SMTP Host\n\n"
+	return helpText
 }

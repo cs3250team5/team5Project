@@ -46,10 +46,8 @@ func Pop3List(conn *Connection) string {
 func Pop3Retr(conn *Connection, msgNo int, byteNo int) string {
 	// Retreves messages
 	message := fmt.Sprintf("RETR %d\r\n", msgNo)
-	fmt.Println(message)
 	conn.Write(message)
 	s, _ := conn.ReadLines(byteNo)
-	//fmt.Printf("Retrieved %d\n%s\n", msgNo, s)
 	return s
 }
 
