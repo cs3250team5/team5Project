@@ -25,10 +25,10 @@ func main() {
 	flag.Parse()
 
 	if *un == "" {
-		*un = userInterface.GetUsername()
+		p3un = userInterface.GetUsername()
 	}
 	if *pw == "" {
-		*pw = userInterface.GetPassword()
+		p3pw = userInterface.GetPassword()
 	}
 
 	conn, err := connection.Pop3Auth("pop.nyx.net", "110", *un, *pw)
@@ -37,14 +37,12 @@ func main() {
 		log.Fatal(err)
 	}
 	s := connection.Pop3List(conn)
-	
+
 	messages := connection.RetrieveAll(conn, connection.ExtractFromList(s))
-	fmt.Println(messages)
-	
+
 	SaveConfig(*un, *pw)
 
 }
-
 
 func ParseConfig() (string, string) {
 	config, err := ioutil.ReadFile(".config")
