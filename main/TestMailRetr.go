@@ -18,4 +18,6 @@ func main() {
 	listMap := connection.ExtractFromList(s)
 	mailMap := connection.RetrieveAll(conn, listMap)
 	connection.WriteToInbox(mailMap)
+	inmail := connection.ReadInbox("Inbox")
+	fmt.Print(inmail)
 }
