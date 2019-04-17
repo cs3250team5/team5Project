@@ -1,7 +1,6 @@
 package connection
 
 import (
-	"Team5Project/util"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -9,8 +8,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
 
 type MailObject struct {
 	To, From, Date, Subject, Message string
@@ -22,7 +19,7 @@ func MailFilter(s string) MailObject {
 	var boundary string
 	lines := strings.Split(s, "\n")
 	for i, line := range lines {
-		first, rest := util.FirstRest(line)
+		first, rest := firstRest(line)
 		if first == "To:" {
 			mail.To = rest
 		}
@@ -66,7 +63,7 @@ func fixBoundary(lines []string, boundary string) string {
 	message := ""
 	header, reader := false, false
 	for i, line := range lines {
-		first, _ := util.FirstRest(line)
+		first, _ := firstRest(line)
 		if header == true {
 			if line == "" {
 				header = false
@@ -84,6 +81,27 @@ func fixBoundary(lines []string, boundary string) string {
 	return message
 }
 
+func firstRest(s string) (string, string) {
+	// Looks at length of string
+	if len(s) > 0 {
+		var first string
+		fields := strings.Fields(s)
+		if len(fields) > 0 {
+			first = fields[0]
+		} else {
+			return "", ""
+		}
+		var rest string
+		if len(s) > len(first)+1 {
+			rest = s[len(first)+1:]
+		} else {
+			return first, ""
+		}
+		return first, rest
+	} else {
+		return "", ""
+	}
+}
 func cleanFrom(s string) string {
 	// Replace " " with "_"
 	name := strings.Replace(readUntil(s, "<"), " ", "_", -1)
@@ -112,7 +130,7 @@ func readUntil(s, delim string) string {
 
 func Save(mail MailObject) {
 	// Saves emails
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, clean(mail.Subject), cleanFrom(mail.From))
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	dir, err := filepath.Abs("Inbox")
 	check(err)
@@ -124,13 +142,7 @@ func Save(mail MailObject) {
 	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
 	f.Write([]byte(d))
 }
-func clean(s string) string {
-	str := s
-	for _, c := range reserved {
-		str = strings.Replace(str, c, "", -1)
-	}
-	return str
-}
+
 func ReadMF(file string) MailObject {
 	// Make email interface better
 	var m MailObject
