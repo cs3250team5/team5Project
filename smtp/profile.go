@@ -73,10 +73,10 @@ func draft(){
 	
 	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
-	dir, err := filepath.Abs("Inbox")
+	dir, err := filepath.Abs("draft")
 	check(err)
 
-	f, err := os.Create(filepath.Join(dir, filepath.Base(fileName))) //creates file within local Inbox folder
+	f, err := os.Create(filepath.Join(dir, filepath.Base(fileName))) //creates file within local Draft folder
 	check(err)
 
 	defer f.Close()
