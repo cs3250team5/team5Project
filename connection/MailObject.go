@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
+
 type MailObject struct {
 	To, From, Date, Subject, Message string
 	Num                              int
@@ -110,7 +112,7 @@ func readUntil(s, delim string) string {
 
 func Save(mail MailObject) {
 	// Saves emails
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, clean(mail.Subject), cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	dir, err := filepath.Abs("Inbox")
 	check(err)
@@ -122,7 +124,13 @@ func Save(mail MailObject) {
 	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
 	f.Write([]byte(d))
 }
-
+func clean(s string) string {
+	str := s
+	for _, c := range reserved {
+		str = strings.Replace(str, c, "", -1)
+	}
+	return str
+}
 func ReadMF(file string) MailObject {
 	// Make email interface better
 	var m MailObject

@@ -1,14 +1,14 @@
 package connection
 
 import (
+	"crypto/tls"
 	"fmt"
-	"net"
 	"os"
 	"strings"
 )
 
 type Connection struct {
-	Con net.Conn
+	Con tls.Conn
 }
 
 func MakeConnection(host string, port string) *Connection {
@@ -19,13 +19,13 @@ func MakeConnection(host string, port string) *Connection {
 }
 func (connect *Connection) Open(host string, port string) {
 	// Checks the connection to server
-	connection, err := net.Dial("tcp", host+":"+port)
+	connection, err := tls.Dial("tcp", host+":"+port, nil)
 	if err != nil {
 		fmt.Println("Error in Client main: " + err.Error())
 		os.Exit(1)
 	}
 	fmt.Println("Connected")
-	connect.Con = connection
+	connect.Con = *connection
 }
 
 func (connect *Connection) ReadLines(bytes int) (string, error) {
@@ -74,7 +74,7 @@ func (connect *Connection) ReadN(n int) (string, error) {
 }
 
 func (connect *Connection) Write(s string) {
-	fmt.Fprintf(connect.Con, s)
+	connect.Con.Write([]byte(s))
 }
 
 func (connect *Connection) Close() {

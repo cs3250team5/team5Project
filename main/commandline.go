@@ -31,7 +31,7 @@ func main() {
 		*pw = userInterface.GetPassword()
 	}
 
-	conn, err := connection.Pop3Auth("pop.nyx.net", "110", *un, *pw)
+	conn, err := connection.Pop3Auth("pop.gmail.com", "995", *un, *pw)
 	defer conn.Close()
 	if err == "err" {
 		log.Fatal(err)

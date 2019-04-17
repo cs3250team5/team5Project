@@ -25,8 +25,8 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 	// Checks to see if username and password is correct
 	s2, _ := conn.Read()
 	if check, _ := util.FirstRest(s2); check != "+OK" {
-		fmt.Println("Login Failed")
-		return conn, "err"
+		fmt.Println("Login Failed - Password Rejected")
+		return conn, "Bad Password"
 	}
 	fmt.Println("Login Succeeded")
 	return conn, ""

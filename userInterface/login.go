@@ -9,7 +9,7 @@ import (
 
 func GetUsername() string {
 	// user types username
-	fmt.Print("Enter your username: ")
+	fmt.Print("Enter your GMAIL username: ")
 	reader := bufio.NewReader(os.Stdin)
 	un, _ := reader.ReadString('\n')
 	return strings.TrimSpace(un)
@@ -18,20 +18,25 @@ func GetUsername() string {
 func GetPassword() string {
 
 	// User types Password
-	fmt.Print("Enter your password: ")
+	fmt.Print("Enter your GMAIL password: ")
+	reader := bufio.NewReader(os.Stdin)
+	pw, _ := reader.ReadString('\n')
+	return strings.TrimSpace(pw)
+}
+
+func GetAppPassword() string {
+
+	// User types Password
+	fmt.Print("Enter your GMAIL App password: ")
 	reader := bufio.NewReader(os.Stdin)
 	pw, _ := reader.ReadString('\n')
 	return strings.TrimSpace(pw)
 }
 
 func GetUsernameAndPassword() []string {
-	fmt.Println("Is the login information the same for POP3 and SMTP?[y/n]")
-	if yesNo() {
-		un := GetUsername()
-		pw := GetPassword()
-		return []string{un, pw}
-	}
-	return nil
+	un := GetUsername()
+	pw := GetPassword()
+	return []string{un, pw}
 }
 
 //Reads and interprets Yes/No Answers from the user. Does not ask questions
@@ -49,6 +54,7 @@ func yesNo() bool {
 		}
 	}
 }
+
 func GetMessageNumber() string {
 
 	// User types in Message number
