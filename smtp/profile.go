@@ -46,8 +46,8 @@ func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg st
 	//configuration
 	hostURL := "smtp.gmail.com"//This will change
 	hostPORT := "587"// This will change
-	emailSender := "fbuker@nyx.net"
-	password := "su$lpHUr.86097"
+	emailSender := "cs3250Team5Relay"
+	password := "bdexlpeeudlnsuwy"
 	emailReciever := composeEmail.EmailTo()
 
 	//creating auth object
@@ -68,4 +68,20 @@ func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg st
 
 	connect.Con.Close()
 }
+
+func draft(){
+	
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
+	fileName = strings.Replace(fileName, " ", "_", -1)
+	dir, err := filepath.Abs("Inbox")
+	check(err)
+
+	f, err := os.Create(filepath.Join(dir, filepath.Base(fileName))) //creates file within local Inbox folder
+	check(err)
+
+	defer f.Close()
+	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
+	f.Write([]byte(d))
+}
+	
 
