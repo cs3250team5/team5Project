@@ -115,6 +115,15 @@ func cleanDate(s string) string {
 	return date
 }
 
+func clean(s string) string {
+	var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
+	str := s
+	for _, c := range reserved {
+		str = strings.Replace(str, c, "", -1)
+	}
+	return str
+}
+
 func readUntil(s, delim string) string {
 	// Reads stirngs and gets rid of last line
 	s1 := ""
@@ -130,7 +139,7 @@ func readUntil(s, delim string) string {
 
 func Save(mail MailObject) {
 	// Saves emails
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, clean(mail.Subject), cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	dir, err := filepath.Abs("Inbox")
 	check(err)
