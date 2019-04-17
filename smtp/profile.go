@@ -34,6 +34,20 @@ func EmailMsg() string {
 	writemsg, _ := reader.ReadString('\n')
 	fmt.Print(".\n")
 	return strings.TrimSpace(writemsg)
+	// User decides whether to save or send
+	fmt.Print("Would you like to save as a draft or send the message?// S/s or D/d")
+	fmt.Scanf("%s", &choice)
+	if choice == "S" || choice == "s" {
+		msg = SendMail(writemsg)
+	}
+	if choice == "D" || choice == "d" {
+		msg = draft(writemsg)
+	}
+	clean = CleanMessage(writemsg)
+	fmt.Print(strings.TrimSpace(clean))
+}
+
+
 }
 
 
@@ -84,4 +98,8 @@ func draft(){
 	f.Write([]byte(d))
 }
 	
-
+//mini function to clean the message
+func CleanMessage(s string) string {
+	s = strings.TrimSuffix(s, "\n.")
+	return s
+}
