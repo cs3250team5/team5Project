@@ -5,6 +5,7 @@ import(
 	"io/ioutil"
 	"connection"
 	"net/smtp"
+	"regexp"
 	
 )
 
@@ -83,19 +84,26 @@ func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg st
 	connect.Con.Close()
 }
 
-func draft(){
+func draft(EmailTo string, EmailSubject string, EmailMsg string){
 	
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
-	fileName = strings.Replace(fileName, " ", "_", -1)
-	dir, err := filepath.Abs("draft")
-	check(err)
+	var findLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
+	
+	if findLetter == EmailTo || findLetter == EmailSubject || findLetter == EmailMsg{ 
 
-	f, err := os.Create(filepath.Join(dir, filepath.Base(fileName))) //creates file within local Draft folder
-	check(err)
+	
+		fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
+		fileName = strings.Replace(fileName, " ", "_", -1)
+		dir, err := filepath.Abs("draft")
+		check(err)
 
-	defer f.Close()
-	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
-	f.Write([]byte(d))
+		f, err := os.Create(filepath.Join(dir, filepath.Base(fileName))) //creates file within local Draft folder
+		check(err)
+
+		defer f.Close()
+		d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
+		f.Write([]byte(d))
+	}
+	
 }
 	
 //mini function to clean the message
