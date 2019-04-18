@@ -139,7 +139,7 @@ func readUntil(s, delim string) string {
 
 func Save(mail MailObject) {
 	// Saves emails
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, clean(mail.Subject), cleanFrom(mail.From))
+	fileName := fmt.Sprintf("%d-%s-%s.txt", mail.Num, clean(mail.Subject), cleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	dir, err := filepath.Abs("Inbox")
 	check(err)
