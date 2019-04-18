@@ -44,6 +44,10 @@ func EmailMsg() string {
 func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string){
 
 	//creating the email
+	sub := composeEmail.EmailSubject()
+	writeMsg := composeEmail.EmailMsg()
+	emailReciever := composeEmail.EmailTo()
+	
 	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" +  writeMsg)
 
 	//user decides whether to save and send
@@ -60,15 +64,11 @@ func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string){
 
 func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg string){
 	
-	sub := composeEmail.EmailSubject()
-	writeMsg := composeEmail.EmailMsg()
-
 	//configuration
 	hostURL := "smtp.gmail.com"//This will change
 	hostPORT := "587"// This will change
 	emailSender := "cs3250Team5Relay"
 	password := "bdexlpeeudlnsuwy"
-	emailReciever := composeEmail.EmailTo()
 
 	//creating auth object
 	emailAUTH := smtp.PlainAuth(
