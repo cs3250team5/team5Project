@@ -3,30 +3,72 @@ package main
 import (
 	"Team5Project/connection"
 	"Team5Project/userInterface"
+	"flag"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+	"strings"
 )
 
 func main() {
-	
-	//Gathers username and password and call server
-	//un, pw := userInterface.GetUsernameAndPassword()
-	un, pw := "fbuker", "su$lpHUr.8097"
-	conn, err := connection.Pop3Auth("pop.nyx.net", "110", un, pw)
-	defer conn.Close()
-	if err != "err" {
-		s := connection.Pop3List(conn)
-		fmt.Println("Messages in Inbox:", s)
+	var defaultUN, defaultPW string
+
+	if _, err := os.Stat(".config"); !os.IsNotExist(err) {
+		defaultUN, defaultPW = ParseConfig()
+	} else {
+		defaultUN, defaultPW = "", ""
 	}
-	//test the emails
-	//conn.Write("RETR 1\r\n")
-	//message1, _ := conn.ReadN(3153)
-	//fmt.Println(message1)
-	n := userInterface.GetMessageNumber()
-	fmt.Println("Retrieving Message", n)
-	conn.Write("RETR 3\r\n")
-	message3, _ := conn.ReadLines(11542)
-	mail := connection.MailFilter(message3)
-	fmt.Println("From: ", mail.From)
-	fmt.Println("Subject: ", mail.Subject)
-	connection.SaveN(mail, 3)
+
+	un := flag.String("un", defaultUN, "Username")
+	pw := flag.String("pw", defaultPW, "Password")
+	flag.Parse()
+
+	if *un == "" {
+		*un = userInterface.GetUsername()
+	}
+	if *pw == "" {
+		*pw = userInterface.GetPassword()
+	}
+
+	conn, err := connection.Pop3Auth("pop.gmail.com", "995", *un, *pw)
+	defer conn.Close()
+	if err == "err" {
+		log.Fatal(err)
+	}
+	s := connection.Pop3List(conn)
+
+	messages := connection.RetrieveAll(conn, connection.ExtractFromList(s))
+	fmt.Println("Messages Downloaded: ", len(messages))
+	connection.WriteToInbox(messages)
+	SaveConfig(*un, *pw)
+
+}
+
+func ParseConfig() (string, string) {
+	config, err := ioutil.ReadFile(".config")
+	if err != nil {
+		log.Fatal(err)
+	}
+	conStr := string(config)
+	lines := strings.Split(conStr, "\n")
+	un := lines[0]
+	pw := lines[1]
+	return un, pw
+}
+
+/*
+Config file layout:
+username
+password
+*/
+func SaveConfig(un, pw string) {
+	file, err := os.OpenFile(".config", os.O_TRUNC|os.O_CREATE, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	bytes := []byte(fmt.Sprintf("%s\n%s", un, pw))
+	file.Write(bytes)
 }

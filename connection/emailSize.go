@@ -1,7 +1,6 @@
 package connection
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 )
@@ -17,7 +16,6 @@ func ExtractFromList(s string) map[int]int {
 		if err == nil {
 			listMap[key] = value
 		}
-		fmt.Println(listMap)
 	}
 	return listMap
 }

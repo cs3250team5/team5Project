@@ -27,7 +27,7 @@ func ReadInbox(inbox string) map[int]MailObject {
 	}
 	finalMap := make(map[int]MailObject /*may change*/)
 	for _, file := range files {
-		m := ReadMF(file.Name())
+		m := ReadMF(inbox + "/" + file.Name())
 		finalMap[m.Num] = m
 	}
 	return finalMap
