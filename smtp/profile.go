@@ -104,6 +104,7 @@ func draft(EmailTo string, EmailSubject string, EmailMsg string){
 		defer f.Close()
 		d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
 		f.Write([]byte(d))
+		fmt.Print("Draft saved and draft folder made.")
 	}
 	
 }
