@@ -2,10 +2,7 @@ package main
 
 import(
 
-	"testing"
-	"Team5Project/smtp"
-	"Team5Project/connection"
-	
+	"testing"	
 )
 
 func TestDraft(t *testing.T){
