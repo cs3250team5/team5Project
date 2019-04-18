@@ -20,7 +20,7 @@ func EmailTo() string {
 
 func EmailSubject() string {
 	
-	// user tpyes subject of email
+	// user types subject of email
 	fmt.Print("Subject: ")
 	reader := bufio.NewReader(os.Stdin)
 	sub, _ := reader.ReadString('\n')
@@ -35,22 +35,27 @@ func EmailMsg() string {
 	writemsg, _ := reader.ReadString('\n')
 	fmt.Print(".\n")
 	return strings.TrimSpace(writemsg)
-	// User decides whether to save or send
-	fmt.Print("Would you like to save as a draft or send the message?// S/s or D/d")
-	fmt.Scanf("%s", &choice)
-	if choice == "S" || choice == "s" {
-		msg = SendMail(writemsg)
-	}
-	if choice == "D" || choice == "d" {
-		msg = draft(writemsg)
-	}
 	clean = CleanMessage(writemsg)
 	fmt.Print(strings.TrimSpace(clean))
 }
 
-
 }
 
+func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string){
+
+	//creating the email
+	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" +  writeMsg)
+
+	//user decides whether to save and send
+	fmt.Print("Would you like save as a draft or send the message?// S/s D/d")
+	fmt.Scanf("%s", &choice)
+	if choice == 'S' || choice == 's'{
+		msg = SendMail(msg)
+	}
+	if choice == 'D' || choice == 'd'{
+		msg = draft(msg)
+	}
+}
 
 
 func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg string){
@@ -68,9 +73,6 @@ func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg st
 	//creating auth object
 	emailAUTH := smtp.PlainAuth(
 		"", emailSender, password, hostURL)
-
-	//creating the email
-	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" +  writeMsg)
 
 	//send the mail
 	err := smtp.SendMail(
