@@ -1,9 +1,0 @@
-Num: 2
-To: fbuker@nyx.net
-From: Frederick Buker <frederickbuker@gmail.com>
-Date: Thu, 21 Feb 2019 15:24:03
-Subject: Test 2
-Message:
-
-This has more words in it. 123456789!@#$%^&*()
-

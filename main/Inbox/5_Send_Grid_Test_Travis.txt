@@ -1,7 +1,0 @@
-Num: 5
-To: Fred.fbuker@nyx.net
-From: Travis <tgolnoft@gmail.com>
-Date: Tue, 02 Apr 2019 20:56:40 +0000 (UTC)
-Subject: Send Grid Test
-Message:
-
