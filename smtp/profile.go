@@ -11,6 +11,7 @@ import (
 	"strings"
 )
 
+func EmailTo() string {
 func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string) {
 
 	//creating the email
