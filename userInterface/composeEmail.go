@@ -30,7 +30,15 @@ func EmailMsg() string {
 	// User types message
 	fmt.Print("Write message")
 	reader := bufio.NewReader(os.Stdin)
-	wmsg, _ := reader.ReadString('\n')
+	writemsg, _ := reader.ReadString('\n')
 	fmt.Print(".\n")
-	return strings.TrimSpace(wmsg)
+	clean := CleanMessage(writemsg)
+	fmt.Print(strings.TrimSpace(clean))
+	return strings.TrimSpace(writemsg)
+}
+
+//mini function to clean the message
+func CleanMessage(s string) string {
+	s = strings.TrimSuffix(s, "\n.")
+	return s
 }

@@ -1,72 +1,42 @@
 package smtp
 
-import(
+import (
+	"Team5Project/connection"
+	"bufio"
 	"fmt"
 	"io/ioutil"
-	"connection"
 	"net/smtp"
+	"os"
 	"regexp"
-	
+	"strings"
 )
 
-func EmailTo() string {
-	
-	// user writes message to 
-	fmt.Print("To: ")
-	reader := bufio.NewReader(os.Stdin)
-	to, _ := reader.ReadString('\n')
-	return strings.TrimSpace(to)
-}
-
-func EmailSubject() string {
-	
-	// user types subject of email
-	fmt.Print("Subject: ")
-	reader := bufio.NewReader(os.Stdin)
-	sub, _ := reader.ReadString('\n')
-	return strings.TrimSpace(sub)
-}
-
-func EmailMsg() string {
-	
-	// User types message
-	fmt.Print("Write message")
-	reader := bufio.NewReader(os.Stdin)
-	writemsg, _ := reader.ReadString('\n')
-	fmt.Print(".\n")
-	return strings.TrimSpace(writemsg)
-	clean = CleanMessage(writemsg)
-	fmt.Print(strings.TrimSpace(clean))
-}
-
-}
-
-func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string){
+func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string) {
 
 	//creating the email
-	sub := composeEmail.EmailSubject()
-	writeMsg := composeEmail.EmailMsg()
-	emailReciever := composeEmail.EmailTo()
-	
-	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" +  writeMsg)
+	sub := EmailSubject()
+	writeMsg := EmailMsg()
+	emailReciever := EmailTo()
+
+	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" + writeMsg)
 
 	//user decides whether to save and send
 	fmt.Print("Would you like save as a draft or send the message?// S/s D/d")
-	fmt.Scanf("%s", &choice)
-	if choice == 'S' || choice == 's'{
-		msg = SendMail(msg)
+	reader := bufio.NewReader(os.Stdin)
+	choice, _ := reader.ReadString('\n')
+	if choice == 'S' || choice == 's' {
+		msg := SendMail(msg)
 	}
-	if choice == 'D' || choice == 'd'{
-		msg = draft(msg)
+	if choice == 'D' || choice == 'd' {
+		msg := draft(msg)
 	}
 }
 
+func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg string) {
 
-func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg string){
-	
 	//configuration
-	hostURL := "smtp.gmail.com"//This will change
-	hostPORT := "587"// This will change
+	hostURL := "smtp.gmail.com" //This will change
+	hostPORT := "587"           // This will change
 	emailSender := "cs3250Team5Relay"
 	password := "bdexlpeeudlnsuwy"
 
@@ -86,13 +56,12 @@ func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg st
 	connect.Con.Close()
 }
 
-func draft(EmailTo string, EmailSubject string, EmailMsg string)string{
-	
-	var findLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
-	
-	if findLetter == EmailTo || findLetter == EmailSubject || findLetter == EmailMsg{ 
+func Draft(EmailTo string, EmailSubject string, EmailMsg string) string {
 
-	
+	var findLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
+
+	if findLetter == EmailTo || findLetter == EmailSubject || findLetter == EmailMsg {
+
 		fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
 		fileName = strings.Replace(fileName, " ", "_", -1)
 		dir, err := filepath.Abs("draft")
@@ -107,11 +76,6 @@ func draft(EmailTo string, EmailSubject string, EmailMsg string)string{
 		g := ("Draft saved and draft folder made.")
 		return g
 	}
-	
+
 }
-	
-//mini function to clean the message
-func CleanMessage(s string) string {
-	s = strings.TrimSuffix(s, "\n.")
-	return s
-}
+

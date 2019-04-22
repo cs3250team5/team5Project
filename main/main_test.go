@@ -1,15 +1,15 @@
 package main
 
-import(
-
-	"testing"	
+import (
+	"Team5Project/smtp"
+	"testing"
 )
 
-func TestDraft(t *testing.T){
+func TestDraft(t *testing.T) {
 
-	if draft(email, sub, msg) != "Draft saved and draft folder made."{
-		
+	if smtp.Draft(email, sub, msg) != "Draft saved and draft folder made." {
+
 		t.Error("expected saved draft")
-		
+
 	}
 }
