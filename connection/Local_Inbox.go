@@ -1,6 +1,7 @@
 package connection
 
-import (
+import (	
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -38,4 +39,9 @@ func WriteToInbox(m map[int]MailObject) {
 	for v := range m {
 		Save(m[v])
 	}
+}
+
+func Mail2Line(mail MailObject) string {
+	str := fmt.Sprintf("|%4d|%20s|%30s|%10s",mail.Num,mail.From,mail.Subject,mail.Date)
+	return str
 }

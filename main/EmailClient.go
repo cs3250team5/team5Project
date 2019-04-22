@@ -43,6 +43,12 @@ func main() {
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
 	fmt.Println(userInterface.RequestState())
+	mails := connection.ReadInbox("Inbox")
+	for m := range mails{
+		fmt.Print(connection.Mail2Line(mails[m]))
+		fmt.Println()
+		fmt.Println("```````````````````````````````````````````````````````````````````````")
+	}
 }
 
 func ParseConfig() (string, string) {
