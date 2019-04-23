@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"team5Project/connection"
 )
 
 /*
@@ -22,5 +23,18 @@ func RequestState() int {
 		if resi == 1 || resi == 2 {
 			return resi
 		}
+			fmt.Println("input not recognized\n Please enter 1 or 2\n")
+	}
+}
+
+func InboxNavi(){
+	for{
+		mails := connection.ReadInbox("Inbox")
+		connection.DisInbox(mails)
+		fmt.Println("Open email? Y/N")
+		reader := bufio.NewReader(os.Stdin)
+		res, _ := reader.ReadString('\n')
+		resi, _ := strconv.Atoi(strings.TrimSpace(res))
+		
 	}
 }
