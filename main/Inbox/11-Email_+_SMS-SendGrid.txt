@@ -1,7 +1,0 @@
-Num: 11
-To: cs3250team5relay@gmail.com
-From: SendGrid <sendgridteam@sendgrid.com>
-Date: Thu, 18 Apr 2019 15:26:37 +0000 (UTC)
-Subject: Email + SMS
-Message:
-
