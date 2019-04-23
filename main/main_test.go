@@ -1,13 +1,14 @@
 package main
 
 import (
+	"Team5Project/connection"
 	"Team5Project/smtp"
 	"testing"
 )
 
 func TestDraft(t *testing.T) {
-
-	if smtp.SendMail("email", "sub", "msg") != "Draft saved and draft folder made." {
+	var g connection.MailObject
+	if smtp.SendMail(g, "email", "sub", "msg") != "no draft made" {
 
 		t.Error("expected saved draft")
 
