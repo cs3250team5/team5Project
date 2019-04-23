@@ -2,6 +2,7 @@ package smtp
 
 import (
 	"Team5Project/connection"
+	"Team5Project/userInterface"
 	"bufio"
 	"fmt"
 	"io/ioutil"
@@ -11,13 +12,12 @@ import (
 	"strings"
 )
 
-func EmailTo() string {
-func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string) {
+func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string) string {
 
 	//creating the email
-	sub := EmailSubject()
-	writeMsg := EmailMsg()
-	emailReciever := EmailTo()
+	sub := userInterface.EmailSubject()
+	writeMsg := userInterface.EmailMsg()
+	emailReciever := userInterface.EmailTo()
 
 	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" + writeMsg)
 
@@ -25,11 +25,13 @@ func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string) {
 	fmt.Print("Would you like save as a draft or send the message?// S/s D/d")
 	reader := bufio.NewReader(os.Stdin)
 	choice, _ := reader.ReadString('\n')
-	if choice == 'S' || choice == 's' {
+	if choice == "S" || choice == "s" {
 		msg := SendMail(msg)
+		return msg
 	}
-	if choice == 'D' || choice == 'd' {
-		msg := draft(msg)
+	if choice == "D" || choice == "d" {
+		msg := Draft(emailReciever, sub, writeMsg)
+		return msg
 	}
 }
 
@@ -46,8 +48,7 @@ func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg st
 		"", emailSender, password, hostURL)
 
 	//send the mail
-	err := smtp.SendMail(
-		hostURL+":"+hostPORT, emailAUTH, emailSender, []string{emailReciever}, msg)
+	err := smtp.SendMail(hostURL+":"+hostPORT, emailAUTH, emailSender, []string{emailReciever}, msg)
 
 	if err != nil {
 		fmt.Print("Error :", err)
