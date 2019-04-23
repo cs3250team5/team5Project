@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-
 )
 
 type MailObject struct {
@@ -20,7 +19,7 @@ func MailFilter(s string) MailObject {
 	var boundary string
 	lines := strings.Split(s, "\n")
 	for i, line := range lines {
-		first, rest := firstRest(line)
+		first, rest := FirstRest(line)
 		if first == "To:" {
 			mail.To = rest
 		}
@@ -34,15 +33,15 @@ func MailFilter(s string) MailObject {
 			mail.Subject = rest
 		}
 		if first == "Content-Type:" {
-			boundary = pullQuote(line)
-			mail.Message = fixBoundary(lines[i:], boundary)
+			boundary = PullQuote(line)
+			mail.Message = FixBoundary(lines[i:], boundary)
 			break
 		}
 	}
 	return mail
 }
 
-func pullQuote(s string) string {
+func PullQuote(s string) string {
 	message := ""
 	quote := false
 	for _, line := range s {
@@ -59,12 +58,12 @@ func pullQuote(s string) string {
 	return message
 }
 
-func fixBoundary(lines []string, boundary string) string {
+func FixBoundary(lines []string, boundary string) string {
 	// Gatters all lines of message and adjust boundarys
 	message := ""
 	header, reader := false, false
 	for i, line := range lines {
-		first, _ := firstRest(line)
+		first, _ := FirstRest(line)
 		if header == true {
 			if line == "" {
 				header = false
@@ -82,7 +81,7 @@ func fixBoundary(lines []string, boundary string) string {
 	return message
 }
 
-func firstRest(s string) (string, string) {
+func FirstRest(s string) (string, string) {
 	// Looks at length of string
 	if len(s) > 0 {
 		var first string
@@ -103,20 +102,20 @@ func firstRest(s string) (string, string) {
 		return "", ""
 	}
 }
-func cleanFrom(s string) string {
+func CleanFrom(s string) string {
 	// Replace " " with "_"
-	name := strings.Replace(readUntil(s, "<"), " ", "_", -1)
+	name := strings.Replace(ReadUntil(s, "<"), " ", "_", -1)
 	name = strings.Replace(name, "\"", "", -1)
 	return name
 }
 
-func cleanDate(s string) string {
-	date := strings.Replace(readUntil(s, "-"), " ", "-", -1)
+func CleanDate(s string) string {
+	date := strings.Replace(ReadUntil(s, "-"), " ", "-", -1)
 	date = strings.Replace(date, "-", " ", -1)
 	return date
 }
 
-func clean(s string) string {
+func Clean(s string) string {
 	var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
 	str := s
 	for _, c := range reserved {
@@ -125,7 +124,7 @@ func clean(s string) string {
 	return str
 }
 
-func readUntil(s, delim string) string {
+func ReadUntil(s, delim string) string {
 	// Reads stirngs and gets rid of last line
 	s1 := ""
 	for _, c := range s {
@@ -140,7 +139,7 @@ func readUntil(s, delim string) string {
 
 func Save(mail MailObject) {
 	// Saves emails
-	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, clean(mail.Subject), cleanFrom(mail.From))
+	fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, Clean(mail.Subject), CleanFrom(mail.From))
 	fileName = strings.Replace(fileName, " ", "_", -1)
 	dir, err := filepath.Abs("Inbox")
 	check(err)
@@ -149,7 +148,7 @@ func Save(mail MailObject) {
 	check(err)
 
 	defer f.Close()
-	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
+	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, CleanDate(mail.Date), mail.Subject, mail.Message)
 	f.Write([]byte(d))
 }
 

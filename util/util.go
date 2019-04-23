@@ -50,6 +50,13 @@ func ReadUntil(s, delim string) string {
 	return s1
 }
 
+func CleanFrom(s string) string {
+	// Replace " " with "_"
+	name := strings.Replace(ReadUntil(s, "<"), " ", "_", -1)
+	name = strings.Replace(name, "\"", "", -1)
+	return name
+}
+
 func check(e error) {
 	if e != nil {
 		panic(e)
