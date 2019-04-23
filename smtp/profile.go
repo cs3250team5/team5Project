@@ -91,42 +91,6 @@ func SendMail(/*conn *Connection, */EmailTo string, EmailSubject string, EmailMs
 	/*connect.Con.Close()*/
 }
 
-func cleanFrom(s string) string {
-	// Replace " " with "_"
-	name := strings.Replace(readUntil(s, "<"), " ", "_", -1)
-	name = strings.Replace(name, "\"", "", -1)
-	return name
-}
-
-
-func cleanDate(s string) string {
-	date := strings.Replace(readUntil(s, "-"), " ", "-", -1)
-	date = strings.Replace(date, "-", " ", -1)
-	return date
-}
-
-func clean(s string) string {
-	var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
-	str := s
-	for _, c := range reserved {
-		str = strings.Replace(str, c, "", -1)
-	}
-	return str
-}
-
-func readUntil(s, delim string) string {
-	// Reads stirngs and gets rid of last line
-	s1 := ""
-	for _, c := range s {
-		if string(c) != delim {
-			s1 = s1 + string(c)
-		} else {
-			return s1[:len(s1)-1]
-		}
-	}
-	return s1
-}
-
 /*
 func Draft(EmailTo string, EmailSubject string, EmailMsg string) string {
 
