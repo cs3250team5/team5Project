@@ -7,7 +7,7 @@ import (
 
 func TestDraft(t *testing.T) {
 
-	if smtp.SendMail("email", "sub", "msg") != "Draft saved and draft folder made." {
+	if smtp.SendMail(*MailObject, "email", "sub", "msg") != "Draft saved and draft folder made." {
 
 		t.Error("expected saved draft")
 
