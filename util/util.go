@@ -22,13 +22,13 @@ func FirstRest(s string) (string, string) {
 		return "", ""
 	}
 }
-func cleanDate(s string) string {
-	date := strings.Replace(readUntil(s, "-"), " ", "-", -1)
+func CleanDate(s string) string {
+	date := strings.Replace(ReadUntil(s, "-"), " ", "-", -1)
 	date = strings.Replace(date, "-", " ", -1)
 	return date
 }
 
-func clean(s string) string {
+func Clean(s string) string {
 	var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
 	str := s
 	for _, c := range reserved {
@@ -37,7 +37,7 @@ func clean(s string) string {
 	return str
 }
 
-func readUntil(s, delim string) string {
+func ReadUntil(s, delim string) string {
 	// Reads stirngs and gets rid of last line
 	s1 := ""
 	for _, c := range s {
@@ -48,4 +48,10 @@ func readUntil(s, delim string) string {
 		}
 	}
 	return s1
+}
+
+func check(e error) {
+	if e != nil {
+		panic(e)
+	}
 }

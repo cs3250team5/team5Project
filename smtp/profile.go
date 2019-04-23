@@ -39,7 +39,7 @@ func CompileMessage(EmailTo string, EmailSubject string, EmailMsg string) {
 }
 */
 
-func SendMail(/*conn *Connection, */EmailTo string, EmailSubject string, EmailMsg string) {
+func SendMail(conn *Connection, EmailTo string, EmailSubject string, EmailMsg string, mail.MailObject) {
 
 	//creating the email
 	sub := userInterface.EmailSubject()
@@ -74,7 +74,7 @@ func SendMail(/*conn *Connection, */EmailTo string, EmailSubject string, EmailMs
 
 		if findLetter(EmailTo) == true || findLetter(EmailSubject) == true || findLetter(EmailMsg) == true {
 
-			fileName := fmt.Sprintf("%d_%s_%s.txt", mail.Num, mail.Subject, cleanFrom(mail.From))
+			fileName := fmt.Sprintf("%d_%s_%s.txt", conn.mail.Num, conn.mail.Subject, util.CleanFrom(mail.From))
 			fileName = strings.Replace(fileName, " ", "_", -1)
 			dir, err := filepath.Abs("draft")
 			check(err)
