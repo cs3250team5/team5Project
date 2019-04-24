@@ -42,9 +42,13 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	fmt.Println(userInterface.RequestState())
-	mails := connection.ReadInbox("Inbox")
-	connection.DisInbox(mails)
+	st := userInterface.RequestState()
+	if st == 2{
+		userInterface.InboxNavi()
+	}
+	if st == 1{
+	
+	}
 	
 }
 
