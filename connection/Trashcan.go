@@ -2,6 +2,11 @@ package connection
 
 import (
 	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
+	"strings"
 	)
 	
 	
@@ -52,4 +57,4 @@ func Discard(mail MailObject) {
 	defer f.Close()
 	d := fmt.Sprintf("Num: %d\nTo: %s\nFrom: %s\nDate: %s\nSubject: %s\nMessage:\n%s\n", mail.Num, mail.To, mail.From, cleanDate(mail.Date), mail.Subject, mail.Message)
 	f.Write([]byte(d))
-	
+}

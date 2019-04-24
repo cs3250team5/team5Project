@@ -1,0 +1,7 @@
+Num: 6
+To: cs3250team5relay@gmail.com
+From: SendGrid <sendgridteam@sendgrid.com>
+Date: Tue, 16 Apr 2019 14:04:19 +0000 (UTC)
+Subject: How to integrate with SendGrid
+Message:
+

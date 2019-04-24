@@ -42,7 +42,14 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	fmt.Println(userInterface.RequestState())
+	st := userInterface.RequestState()
+	if st == 2{
+		userInterface.InboxNavi()
+	}
+	if st == 1{
+	
+	}
+	
 }
 
 func ParseConfig() (string, string) {

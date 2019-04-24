@@ -13,7 +13,7 @@ func EmailTo() string {
 	// user writes message to 
 	fmt.Print("To: ")
 	reader := bufio.NewReader(os.Stdin)
-	to, _ := reader.ReadString('\n')
+	to, _ := reader.ReadString('\n') 
 	return strings.TrimSpace(to)
 }
 
