@@ -20,49 +20,27 @@ func ReadHref(t html.Token) (ok bool, href string) {
 }
 
 func PullText(s string) {
-	//	read := strings.NewReader(s)
-	//	z := html.NewTokenizer(read)
-	//	for {
-	//		tt := z.Next()
-
-	//		switch {
-	//		case tt == html.ErrorToken:
-	//			return
-	//		case tt == html.TextToken:
-	//			fmt.Println("Found Text Token")
-	//			t := z.Token()
-	//			mess := t.String()
-	//			fmt.Println(mess)
-	//			fmt.Println(string(z.Text()))
-	//			if mess != "" || strings.TrimSpace(mess) == "" {
-	//				message = message + "\n" + mess
-	//			}
-	//		}
-	//
-	//	}
-	/*
-		links := []string{}
-		doc, err := html.Parse(strings.NewReader(s))
-		if err != nil {
-			log.Fatal(err)
-		}
-		var f func(*html.Node)
-		f = func(n *html.Node) {
-			if n.Type == html.ElementNode && n.Data == "a" {
-				for _, a := range n.Attr {
-					if a.Key == "href" {
-						links = append(links, a.Val)
-						break
-					}
+	links := []string{}
+	doc, err := html.Parse(strings.NewReader(s))
+	if err != nil {
+		log.Fatal(err)
+	}
+	var f func(*html.Node)
+	f = func(n *html.Node) {
+		if n.Type == html.ElementNode && n.Data == "a" {
+			for _, a := range n.Attr {
+				if a.Key == "href" {
+					links = append(links, a.Val)
+					break
 				}
 			}
-			for c := n.FirstChild; c != nil; c = c.NextSibling {
-				f(c)
-			}
 		}
-		f(doc)
-		return links
-	*/
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c)
+		}
+	}
+	f(doc)
+
 	domDocTest := html.NewTokenizer(strings.NewReader(s))
 	previousStartTokenTest := domDocTest.Token()
 loopDomTest:
@@ -78,9 +56,21 @@ loopDomTest:
 				continue
 			}
 			TxtContent := strings.TrimSpace(html.UnescapeString(string(domDocTest.Text())))
-			if len(TxtContent) > 0 && !strings.HasPrefix(TxtContent, "=") {
-				fmt.Printf("%s ", TxtContent)
+
+			if previousStartTokenTest.Data == "title" {
+				fmt.Printf("%s\n", TextDecoder(TxtContent))
+			} else if len(TxtContent) > 0 && !strings.HasPrefix(TxtContent, "@media") {
+				fmt.Printf("%s ", TextDecoder(TxtContent))
 			}
 		}
 	}
+	return links
+}
+
+func TextDecoder(s string) string {
+	s = strings.Replace(s, "=20", " ", -1)
+	s = strings.Replace(s, "=09", "", -1)
+	s = strings.Replace(s, "=E2=80=99", "'", -1)
+	s = strings.Replace(s, "=C2=A9", "©", -1)
+	return s
 }
