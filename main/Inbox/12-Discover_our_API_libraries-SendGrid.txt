@@ -1,7 +1,0 @@
-Num: 12
-To: cs3250team5relay@gmail.com
-From: SendGrid <sendgridteam@sendgrid.com>
-Date: Mon, 22 Apr 2019 14:01:39 +0000 (UTC)
-Subject: Discover our API libraries
-Message:
-

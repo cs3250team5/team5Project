@@ -3,6 +3,7 @@ package main
 import (
 	"Team5Project/connection"
 	"Team5Project/userInterface"
+	"Team5Project/smtp"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -47,7 +48,8 @@ func main() {
 		userInterface.InboxNavi()
 	}
 	if st == 1{
-	
+		var g connection.MailObject
+		smtp.SendMail(g, "email", "sub", "msg")
 	}
 	
 }
