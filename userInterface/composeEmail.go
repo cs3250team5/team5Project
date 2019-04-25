@@ -28,7 +28,7 @@ func EmailSubject() string {
 func EmailMsg() string {
 
 	// User types message
-	fmt.Print("Write message")
+	fmt.Print("Write message: ")
 	reader := bufio.NewReader(os.Stdin)
 	wmsg, _ := reader.ReadString('\n')
 	fmt.Print(".\n")
