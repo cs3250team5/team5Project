@@ -43,14 +43,7 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	st := userInterface.RequestState()
-	if st == 2{
-		userInterface.InboxNavi()
-	}
-	if st == 1{
-		var g connection.MailObject
-		smtp.SendMail(g, "email", "sub", "msg")
-	}
+	MainLoop()
 	
 }
 
@@ -66,6 +59,21 @@ func ParseConfig() (string, string) {
 	return un, pw
 }
 
+func MainLoop(){
+	for{
+		st := userInterface.RequestState()
+		if st == 2{
+			userInterface.InboxNavi()
+		}
+		if st == 1{
+			var g connection.MailObject
+			smtp.SendMail(g, "email", "sub", "msg")
+		}
+		if st == 3{
+			break
+		}
+	}
+}
 /*
 Config file layout:
 username

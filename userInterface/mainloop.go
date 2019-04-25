@@ -16,14 +16,14 @@ states:
 */
 func RequestState() int {
 	for {
-		fmt.Println("What would you like to do?\n1 - Write a Message\n2 - View Inbox\n")
+		fmt.Println("What would you like to do?\n1 - Write a Message\n2 - View Inbox\n3-Close Program")
 		reader := bufio.NewReader(os.Stdin)
 		res, _ := reader.ReadString('\n')
 		resi, _ := strconv.Atoi(strings.TrimSpace(res))
-		if resi == 1 || resi == 2 {
+		if resi == 1 || resi == 2 || resi == 3{
 			return resi
 		}
-			fmt.Println("input not recognized\n Please enter 1 or 2\n")
+			fmt.Println("input not recognized\n Please enter 1, 2, or 3\n")
 	}
 }
 
@@ -58,3 +58,4 @@ func MailNavi(mails map[int]connection.MailObject) string{
 	connection.DisInbox(mails)
 	return res
 }
+
