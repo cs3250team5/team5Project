@@ -42,7 +42,14 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-
+	st := userInterface.RequestState()
+	if st == 2{
+		userInterface.InboxNavi()
+	}
+	if st == 1{
+	
+	}
+	
 }
 
 func ParseConfig() (string, string) {
@@ -52,8 +59,8 @@ func ParseConfig() (string, string) {
 	}
 	conStr := string(config)
 	lines := strings.Split(conStr, "\n")
-	un := lines[0]
-	pw := lines[1]
+	un := strings.TrimSpace(lines[0])
+	pw := strings.TrimSpace(lines[1])
 	return un, pw
 }
 

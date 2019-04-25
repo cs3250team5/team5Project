@@ -192,3 +192,14 @@ func check(e error) {
 		panic(e)
 	}
 }
+
+func DisEmail(mail MailObject){
+	str1 := fmt.Sprintf("%.40s",mail.From)
+	str2 := fmt.Sprintf("%.50s",mail.Subject)
+	str3 := fmt.Sprintf("%.16s",mail.Date)
+	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|",mail.Num,str1,str2,str3)
+	fmt.Println(str)
+	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+	fmt.Println(mail.Message)
+	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+}
