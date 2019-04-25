@@ -1,7 +1,0 @@
-Num: 2
-To: cs3250team5relay@gmail.com
-From: "Sendgrid Support" <support@sendgrid.com>
-Date: Wed, 10 Apr 2019 22:20:44 +0000 (UTC)
-Subject: Welcome to SendGrid! Confirm Your Email
-Message:
-

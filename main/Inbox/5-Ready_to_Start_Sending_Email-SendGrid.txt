@@ -1,7 +1,0 @@
-Num: 5
-To: cs3250team5relay@gmail.com
-From: SendGrid <sendgridteam@sendgrid.com>
-Date: Sat, 13 Apr 2019 00:55:00 +0000 (UTC)
-Subject: Ready to Start Sending Email?
-Message:
-
