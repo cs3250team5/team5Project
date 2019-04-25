@@ -16,9 +16,9 @@ import (
 func SendMail(mail connection.MailObject, EmailTo string, EmailSubject string, EmailMsg string) {
 
 	//creating the email
+	emailReciever := userInterface.EmailTo()
 	sub := userInterface.EmailSubject()
 	writeMsg := userInterface.EmailMsg()
-	emailReciever := userInterface.EmailTo()
 
 	//configuration
 	hostURL := "smtp.gmail.com" //This will change
@@ -44,7 +44,7 @@ func SendMail(mail connection.MailObject, EmailTo string, EmailSubject string, E
 		if err != nil {
 			fmt.Print("Error :", err)
 	}
-	fmt.Println(" email sent from " + emailReciever)
+	fmt.Println(" email sent to " + emailReciever)
 	/*}
 	if choice == "D" || choice == "d" {
 		var findLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
