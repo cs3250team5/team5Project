@@ -10,6 +10,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	
 )
 
 func main() {
@@ -43,7 +44,7 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	MainLoop()
+	MainLoop(conn)
 	
 }
 
@@ -59,11 +60,11 @@ func ParseConfig() (string, string) {
 	return un, pw
 }
 
-func MainLoop(){
+func MainLoop(conn connection.Connection){
 	for{
 		st := userInterface.RequestState()
 		if st == 2{
-			userInterface.InboxNavi()
+			userInterface.InboxNavi(conn)
 		}
 		if st == 1{
 			var g connection.MailObject

@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	
+	"path/filepath"
 )
 
 func CheckInbox() bool {
@@ -42,6 +42,24 @@ func WriteToInbox(m map[int]MailObject) {
 	}
 }
 
+func ClearInbox(dir string) error{
+	d, err := os.Open(dir)
+    if err != nil {
+        return err
+    }
+    defer d.Close()
+    names, err := d.Readdirnames(-1)
+    if err != nil {
+        return err
+    }
+    for _, name := range names {
+        err = os.RemoveAll(filepath.Join(dir, name))
+        if err != nil {
+            return err
+        }
+    }
+    return nil
+}
 func Mail2Line(mail MailObject) string {
 	str1 := fmt.Sprintf("%.40s",mail.From)
 	str2 := fmt.Sprintf("%.50s",mail.Subject)

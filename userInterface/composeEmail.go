@@ -34,3 +34,4 @@ func EmailMsg() string {
 	fmt.Print(".\n")
 	return strings.TrimSpace(wmsg)
 }
+

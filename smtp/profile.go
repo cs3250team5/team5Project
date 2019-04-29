@@ -2,7 +2,6 @@ package smtp
 
 import (
 	"Team5Project/connection"
-	"Team5Project/userInterface"
 	//"Team5Project/util"
 	//"bufio"
 	"fmt"
@@ -38,9 +37,7 @@ func SendMail(mail connection.MailObject, EmailTo string, EmailSubject string, E
 	fmt.Println(choice)
 	//send the mail
 	if choice == "S" || choice == "s" {*/
-		err := smtp.SendMail(
-			hostURL+":"+hostPORT, emailAUTH, emailSender, []string{emailReciever}, msg)
-
+		err := SendMail(hostURL+":"+hostPORT, emailAUTH, emailSender, []string{emailReciever}, msg)
 		if err != nil {
 			fmt.Print("Error :", err)
 	}
