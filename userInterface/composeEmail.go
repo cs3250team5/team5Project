@@ -25,13 +25,19 @@ func EmailSubject() string {
 	return strings.TrimSpace(sub)
 }
 
-func EmailMsg() string {
-
+func EmailMsg() []string {
 	// User types message
 	fmt.Print("Write message: ")
-	reader := bufio.NewReader(os.Stdin)
-	wmsg, _ := reader.ReadString('\n')
-	fmt.Print(".\n")
-	return strings.TrimSpace(wmsg)
+	var userInput []string
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if line == "." {
+			break
+		}
+		userInput = append(userInput, line+"\n")
+
+	}
+	return userInput
 }
 
