@@ -48,8 +48,8 @@ func main() {
 		userInterface.InboxNavi()
 	}
 	if st == 1{
-		var g connection.MailObject
-		smtp.SendMail(g, "email", "sub", "msg")
+		var g /*connection.MailObject*/ smtp.MailDraft
+		smtp.ComposeSend(g, "email", "sub", "msg")
 	}
 	
 }
