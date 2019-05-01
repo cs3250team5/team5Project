@@ -29,7 +29,7 @@ For your email to work you need to have a few things.
 3) An app password
 
 ## This Program
-When loged in this will automatically download emails in your local inbox.
+When logged in this will automatically download emails in your local inbox.
 
 The main menu will have two options.
 
