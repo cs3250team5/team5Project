@@ -4,7 +4,7 @@
 
 [Requirments](#requirments)
 
-[What Dose This Program Do?](#what-dose-this-program-do?)
+[This Program](#this-program)
 
 [Gmail Setup](#gmail-setup)
 
@@ -28,7 +28,7 @@ For your email to work you need to have a few things.
 
 -3) An app password
 
-## What Dose This Program do?
+## This Program
 When loged in this will automatically download emails in your local inbox.
 
 The main menu will have two options.
@@ -49,4 +49,4 @@ The main menu will have two options.
 -Step 1: do stuff
 
 -Step 2:  
-	[Back to top](#table-of-content)
+	[Back to top](#team5Project)
