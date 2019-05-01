@@ -60,15 +60,15 @@ func ParseConfig() (string, string) {
 	return un, pw
 }
 
-func MainLoop(conn connection.Connection){
+func MainLoop(conn *connection.Connection){
 	for{
 		st := userInterface.RequestState()
 		if st == 2{
 			userInterface.InboxNavi(conn)
 		}
 		if st == 1{
-			var g connection.MailObject
-			smtp.SendMail(g, "email", "sub", "msg")
+			var g smtp.MailDraft
+			smtp.ComposeSend(g, "email", "sub", "msg")
 		}
 		if st == 3{
 			break

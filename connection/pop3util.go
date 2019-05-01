@@ -65,7 +65,8 @@ func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
 
 func Pop3Del(conn *Connection, I int) {
 	message := fmt.Sprintf("DELE %d\r\n", I)
-	cs, _ := conn.Read()
+	conn.Write(message)
+	s, _ := conn.Read()
 	first, _ := util.FirstRest(s)
 	if first == "+OK" {
 		fmt.Println(first)

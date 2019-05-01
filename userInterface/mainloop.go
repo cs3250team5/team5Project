@@ -27,7 +27,7 @@ func RequestState() int {
 	}
 }
 
-func InboxNavi(conn connection.Connection){
+func InboxNavi(conn *connection.Connection){
 	mails := connection.ReadInbox("Inbox")
 	connection.DisInbox(mails)
 	fmt.Println("Open email? Y/N")
@@ -43,7 +43,7 @@ func InboxNavi(conn connection.Connection){
 	}
 }
 
-func MailNavi(conn connection.Connection,mails map[int]connection.MailObject) ( string,  map[int]connection.MailObject){
+func MailNavi(conn *connection.Connection,mails map[int]connection.MailObject) ( string,  map[int]connection.MailObject){
 	fmt.Println("Please enter Email Number:")
 	reader := bufio.NewReader(os.Stdin)
 	res, _ := reader.ReadString('\n')
