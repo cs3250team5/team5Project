@@ -78,6 +78,7 @@ func (connect *Connection) Write(s string) {
 }
 
 func (connect *Connection) Close() {
+	connect.Write("QUIT\r\n")
 	connect.Con.Close()
 	fmt.Println("Connection Closed")
 }

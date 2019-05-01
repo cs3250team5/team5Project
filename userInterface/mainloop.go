@@ -16,7 +16,7 @@ states:
 */
 func RequestState() int {
 	for {
-		fmt.Println("What would you like to do?\n1 - Write a Message\n2 - View Inbox\n3-Close Program")
+		fmt.Println("What would you like to do?\n1 - Write a Message\n2 - View Inbox\n3 - Close Program")
 		reader := bufio.NewReader(os.Stdin)
 		res, _ := reader.ReadString('\n')
 		resi, _ := strconv.Atoi(strings.TrimSpace(res))
@@ -50,6 +50,7 @@ func MailNavi(conn connection.Connection,mails map[int]connection.MailObject) ( 
 	resi, _ := strconv.Atoi(strings.TrimSpace(res))
 	connection.DisEmail(mails[resi])
 	fmt.Println("would you like to delete this email Y/N")
+	res, _ = reader.ReadString('\n')
 	if strings.HasPrefix(res,"y")|| strings.HasPrefix(res,"Y"){
 		connection.Pop3Del(conn,resi)
 		connection.ClearInbox("Inbox")
