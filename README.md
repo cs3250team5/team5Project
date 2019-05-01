@@ -1,8 +1,11 @@
 # team5Project
 ## Table of Contents
 [Overview](#overview)
+
 [Requirments](#requirments)
+
 [What Dose This Program Do?](#what-dose-this-program-do?)
+
 [Gmail Setup](#gmail-setup)
 
 ## Overview
