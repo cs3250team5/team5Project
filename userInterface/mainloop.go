@@ -27,7 +27,7 @@ func RequestState() int {
 	}
 }
 
-func InboxNavi(){
+func InboxNavi() {
 	mails := connection.ReadInbox("Inbox")
 	connection.DisInbox(mails)
 	fmt.Println("Open email? Y/N")
@@ -39,7 +39,11 @@ func InboxNavi(){
 		}
 		if strings.HasPrefix(resi,"n")|| strings.HasPrefix(resi,"N"){
 			break
-		}			
+		}else{
+	
+			fmt.Println("Not a valid input put in a valid input try again")	
+			InboxNavi()// recusive for error handling
+		}
 	}
 }
 
@@ -52,6 +56,7 @@ func MailNavi(mails map[int]connection.MailObject) string{
 	fmt.Println("Open another email? Y/N")
 	res, _ = reader.ReadString('\n')
 	if strings.HasPrefix(res,"n")|| strings.HasPrefix(res,"N"){
+			InboxNavi()
 			return res
 	}
 	mails = connection.ReadInbox("Inbox")
