@@ -29,7 +29,6 @@ func EmailMsg() string {
 	// User types message
 	var userInput string
 	fmt.Print("Write message: ")
-	var userInput string
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan(){
 		line:= scanner.Text()
