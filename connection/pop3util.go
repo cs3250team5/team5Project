@@ -32,7 +32,7 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 	return conn, ""
 }
 
-func Pop3List(conn Connection) string {
+func Pop3List(conn *Connection) string {
 	// Lists out all emails with data size
 	conn.Write("list\r\n")
 	s, _ := conn.ReadLines(1024)
@@ -43,7 +43,7 @@ func Pop3List(conn Connection) string {
 	return s
 }
 
-func Pop3Retr(conn Connection, msgNo int, byteNo int) string {
+func Pop3Retr(conn *Connection, msgNo int, byteNo int) string {
 	// Retreves messages
 	message := fmt.Sprintf("RETR %d\r\n", msgNo)
 	conn.Write(message)
@@ -51,7 +51,7 @@ func Pop3Retr(conn Connection, msgNo int, byteNo int) string {
 	return s
 }
 
-func RetrieveAll(conn Connection, listMap map[int]int) map[int]MailObject {
+func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
 	// Emails are put into maps based on data size
 	finalMap := make(map[int]MailObject)
 	for key, value := range listMap {
@@ -63,7 +63,7 @@ func RetrieveAll(conn Connection, listMap map[int]int) map[int]MailObject {
 	return finalMap
 }
 
-func Pop3Del(conn Connection, I int) {
+func Pop3Del(conn *Connection, I int) {
 	message := fmt.Sprintf("DELE %d\r\n", I)
 	conn.Write(message)
 }
