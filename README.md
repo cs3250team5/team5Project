@@ -2,7 +2,7 @@
 ## Table of Contents
 [Overview](#overview)
 
-[Requirments](#requirments)
+[Requirements](#requirements)
 
 [This Program](#this-program)
 
@@ -11,39 +11,39 @@
 ## Overview
 This is Gmail Email client that uses [Pop3](https://en.wikipedia.org/wiki/Post_Office_Protocol) for retriving mail. 
 
--This will download your inbox to your PC.
+	This will download your inbox to your PC.
 
--You can delete mail
+	You can delete mail
 
--You can send mail to others
+	You can send mail to others
 
--You can save your draft mail
+	You can save your draft mail
 
-## Requirments
+## Requirements
 For your email to work you need to have a few things.
 
--1) A Gmail account
+1) A Gmail account
 
--2) A two Step authentication setup
+2) A two Step authentication setup
 
--3) An app password
+3) An app password
 
 ## This Program
 When loged in this will automatically download emails in your local inbox.
 
 The main menu will have two options.
 
--Write a Message
+	Write a Message
 
-	-send
+		send
 	
-	-draft
+		draft
 	
--View Inbox
+	View Inbox
 
-	-view a message
+		view a message
 	
-		-delete
+			delete
 
 ## Gmail Setup
 -Step 1: do stuff
