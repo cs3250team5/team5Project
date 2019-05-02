@@ -22,7 +22,9 @@ This is Gmail Email client that uses [Pop3](https://en.wikipedia.org/wiki/Post_O
 ## Requirements
 For your email to work you need to have a few things.
 
-1) A Gmail account
+1) Windows only
+
+2) A Gmail account
 
 2) A two Step authentication setup
 
