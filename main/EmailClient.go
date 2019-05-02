@@ -38,19 +38,12 @@ func main() {
 		log.Fatal(err)
 	}
 	s := connection.Pop3List(conn)
-
+	fmt.Println(s)
 	messages := connection.RetrieveAll(conn, connection.ExtractFromList(s))
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	st := userInterface.RequestState()
-	if st == 2 {
-		userInterface.InboxNavi()
-	}
-	if st == 1 {
-		var g /*connection.MailObject*/ smtp.MailDraft
-		smtp.ComposeSend(g, "email", "sub", "msg")
-	}
+	MainLoop(conn)
 
 }
 
@@ -64,6 +57,22 @@ func ParseConfig() (string, string) {
 	un := strings.TrimSpace(lines[0])
 	pw := strings.TrimSpace(lines[1])
 	return un, pw
+}
+
+func MainLoop(conn *connection.Connection) {
+	for {
+		st := userInterface.RequestState()
+		if st == 2 {
+			userInterface.InboxNavi(conn)
+		}
+		if st == 1 {
+			var g smtp.MailDraft
+			smtp.ComposeSend(g, "email", "sub", "msg")
+		}
+		if st == 3 {
+			break
+		}
+	}
 }
 
 /*

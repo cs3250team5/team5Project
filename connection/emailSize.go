@@ -7,6 +7,7 @@ import (
 
 func ExtractFromList(s string) map[int]int {
 	// Puts message number and data size into a map
+	s = strings.Replace(s, "\r", "", -1)
 	lines := strings.Split(s, "\n")
 	listMap := make(map[int]int)
 	for _, line := range lines[1 : len(lines)-2] {

@@ -1,6 +1,7 @@
 package connection
 
 import (
+	"Team5Project/html"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -78,7 +79,7 @@ func fixBoundary(lines []string, boundary string) string {
 			reader = true
 		}
 	}
-	return message
+	return html.PullText(message)
 }
 
 func firstRest(s string) (string, string) {
@@ -193,11 +194,11 @@ func check(e error) {
 	}
 }
 
-func DisEmail(mail MailObject){
-	str1 := fmt.Sprintf("%.40s",mail.From)
-	str2 := fmt.Sprintf("%.50s",mail.Subject)
-	str3 := fmt.Sprintf("%.16s",mail.Date)
-	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|",mail.Num,str1,str2,str3)
+func DisEmail(mail MailObject) {
+	str1 := fmt.Sprintf("%.40s", mail.From)
+	str2 := fmt.Sprintf("%.50s", mail.Subject)
+	str3 := fmt.Sprintf("%.16s", mail.Date)
+	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|", mail.Num, str1, str2, str3)
 	fmt.Println(str)
 	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
 	fmt.Println(mail.Message)

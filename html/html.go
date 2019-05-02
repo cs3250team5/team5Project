@@ -6,6 +6,7 @@ package html
 import (
 	"fmt"
 	"golang.org/x/net/html"
+	"log"
 	"strings"
 )
 
@@ -19,8 +20,8 @@ func ReadHref(t html.Token) (ok bool, href string) {
 	return
 }
 
-func PullText(s string) {
-	links := []string{}
+func PullText(s string) string {
+	links := ""
 	doc, err := html.Parse(strings.NewReader(s))
 	if err != nil {
 		log.Fatal(err)
@@ -30,7 +31,7 @@ func PullText(s string) {
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for _, a := range n.Attr {
 				if a.Key == "href" {
-					links = append(links, a.Val)
+					links = links + a.Val + "\n"
 					break
 				}
 			}
@@ -43,6 +44,7 @@ func PullText(s string) {
 
 	domDocTest := html.NewTokenizer(strings.NewReader(s))
 	previousStartTokenTest := domDocTest.Token()
+	ret := ""
 loopDomTest:
 	for {
 		tt := domDocTest.Next()
@@ -58,13 +60,13 @@ loopDomTest:
 			TxtContent := strings.TrimSpace(html.UnescapeString(string(domDocTest.Text())))
 
 			if previousStartTokenTest.Data == "title" {
-				fmt.Printf("%s\n", TextDecoder(TxtContent))
+				ret = ret + fmt.Sprintf("%s\n", TextDecoder(TxtContent))
 			} else if len(TxtContent) > 0 && !strings.HasPrefix(TxtContent, "@media") {
-				fmt.Printf("%s ", TextDecoder(TxtContent))
+				ret = ret + fmt.Sprintf("%s ", TextDecoder(TxtContent))
 			}
 		}
 	}
-	return links
+	return ret + "\n--------------------------------------\nLinks In Mail:\n" + links
 }
 
 func TextDecoder(s string) string {

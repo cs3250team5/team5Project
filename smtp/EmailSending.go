@@ -53,7 +53,7 @@ func ComposeSend( /*mail connection.MailObject,*/ draft MailDraft, EmailTo strin
 
 		if findLetter(EmailTo) == true || findLetter(EmailSubject) == true || findLetter(EmailMsg) == true {
 
-			fileName := fmt.Sprintf("%s.txt", sub)
+			fileName := fmt.Sprintf("%s.txt", "new draft")
 			fileName = strings.Replace(fileName, " ", "_", -1)
 			dir, err := filepath.Abs("draft")
 			check(err)
