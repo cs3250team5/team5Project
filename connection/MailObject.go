@@ -74,7 +74,7 @@ func fixBoundary(lines []string, boundary string) string {
 				break
 			}
 			message = message + "\n" + lines[i]
-		} else if first == "--"+boundary {
+		} else if first == "--"+boundary && strings.HasPrefix(lines[i+1], "Content-Type: text/html;") {
 			header = true
 			reader = true
 		}
