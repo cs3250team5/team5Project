@@ -2,6 +2,7 @@ package connection
 
 import (
 	"fmt"
+	"hash/fnv"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -191,4 +192,33 @@ func check(e error) {
 	if e != nil {
 		panic(e)
 	}
+}
+
+func DisEmail(mail MailObject) {
+	str1 := fmt.Sprintf("%.40s", mail.From)
+	str2 := fmt.Sprintf("%.50s", mail.Subject)
+	str3 := fmt.Sprintf("%.16s", mail.Date)
+	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|", mail.Num, str1, str2, str3)
+	fmt.Println(str)
+	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+	fmt.Println(mail.Message)
+	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+}
+
+func HashMailNumber(mail MailObject) uint32 {
+	var strs []string
+
+	from := mail.From
+	date := mail.Date
+
+	strs = append(strs, from, date)
+
+	HashString := strings.Join(strs, "")
+
+	Hash := fnv.New32a()
+	Hash.Write([]byte(HashString)) // converting From to []byte
+	HashNumber := Hash.Sum32()     // converting []byte to unit 32
+
+	return HashNumber
+
 }

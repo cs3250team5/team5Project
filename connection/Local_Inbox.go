@@ -1,9 +1,11 @@
 package connection
 
-import (
+import (	
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	
 )
 
 func CheckInbox() bool {
@@ -37,5 +39,22 @@ func WriteToInbox(m map[int]MailObject) {
 	CreateInbox()
 	for v := range m {
 		Save(m[v])
+	}
+}
+
+func Mail2Line(mail MailObject) string {
+	str1 := fmt.Sprintf("%.40s",mail.From)
+	str2 := fmt.Sprintf("%.50s",mail.Subject)
+	str3 := fmt.Sprintf("%.16s",mail.Date)
+	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|",mail.Num,str1,str2,str3)
+	return str
+}
+
+func DisInbox(mail map[int]MailObject) {
+	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+	for m := range mail{
+		fmt.Printf(Mail2Line(mail[m]))
+		fmt.Println()
+		fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
 	}
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"Team5Project/connection"
 	"Team5Project/userInterface"
+	"Team5Project/smtp"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -42,7 +43,15 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	fmt.Println(userInterface.RequestState())
+	st := userInterface.RequestState()
+	if st == 2{
+		userInterface.InboxNavi()
+	}
+	if st == 1{
+		var g /*connection.MailObject*/ smtp.MailDraft
+		smtp.ComposeSend(g, "email", "sub", "msg")
+	}
+	
 }
 
 func ParseConfig() (string, string) {
