@@ -2,8 +2,8 @@ package main
 
 import (
 	"Team5Project/connection"
-	"Team5Project/userInterface"
 	"Team5Project/smtp"
+	"Team5Project/userInterface"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -32,7 +32,7 @@ func main() {
 		*pw = userInterface.GetPassword()
 	}
 
-	conn, err := connection.Pop3Auth("pop.gmail.com", "995", *un, *pw)
+	conn, err := connection.Pop3Auth("pop.gmail.com", "25", *un, *pw)
 	defer conn.Close()
 	if err == "err" {
 		log.Fatal(err)
@@ -44,14 +44,14 @@ func main() {
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
 	st := userInterface.RequestState()
-	if st == 2{
+	if st == 2 {
 		userInterface.InboxNavi()
 	}
-	if st == 1{
+	if st == 1 {
 		var g /*connection.MailObject*/ smtp.MailDraft
 		smtp.ComposeSend(g, "email", "sub", "msg")
 	}
-	
+
 }
 
 func ParseConfig() (string, string) {

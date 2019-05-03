@@ -6,31 +6,30 @@ import (
 	//"Team5Project/util"
 	"bufio"
 	"fmt"
-	"path/filepath"
 	"net/smtp"
 	"os"
-	"regexp" 
+	"path/filepath"
+	"regexp"
 	"strings"
 )
+
 type MailDraft struct {
 	To, Subject, Message string
 }
 
-
-func ComposeSend(/*mail connection.MailObject,*/ draft MailDraft, EmailTo string, EmailSubject string, EmailMsg string) {
+func ComposeSend( /*mail connection.MailObject,*/ draft MailDraft, EmailTo string, EmailSubject string, EmailMsg string) {
 
 	//creating the email
 	emailReciever := userInterface.EmailTo()
 	sub := userInterface.EmailSubject()
 	writeMsg := userInterface.EmailMsg()
 
-
 	//configuration
 	hostURL := "smtp.gmail.com" //This will change
-	hostPORT := "587"           // This will change
-	emailSender := "cs3250Team5Relay"
-	password := "bdexlpeeudlnsuwy"
-	
+	hostPORT := "25"           // This will change
+	emailSender := "garybusey2025"
+	password := "iqqnufxraqbgibnp"
+
 	//creating auth object
 	emailAUTH := smtp.PlainAuth("", emailSender, password, hostURL)
 	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" + writeMsg)
@@ -41,7 +40,7 @@ func ComposeSend(/*mail connection.MailObject,*/ draft MailDraft, EmailTo string
 	choice, _ := reader.ReadString('\n')
 	fmt.Println(choice)
 	//send the mail
-	if strings.HasPrefix(choice,"s") || strings.HasPrefix(choice,"S"){
+	if strings.HasPrefix(choice, "s") || strings.HasPrefix(choice, "S") {
 		err := smtp.SendMail(hostURL+":"+hostPORT, emailAUTH, emailSender, []string{emailReciever}, msg)
 
 		if err != nil {
@@ -49,7 +48,7 @@ func ComposeSend(/*mail connection.MailObject,*/ draft MailDraft, EmailTo string
 		}
 		fmt.Println(" email sent to " + emailReciever)
 	}
-	if strings.HasPrefix(choice,"d") || strings.HasPrefix(choice,"D"){
+	if strings.HasPrefix(choice, "d") || strings.HasPrefix(choice, "D") {
 		var findLetter = regexp.MustCompile(`^[a-zA-Z]+$`).MatchString
 
 		if findLetter(EmailTo) == true || findLetter(EmailSubject) == true || findLetter(EmailMsg) == true {
@@ -67,15 +66,14 @@ func ComposeSend(/*mail connection.MailObject,*/ draft MailDraft, EmailTo string
 			f.Write([]byte(d))
 			//fmt.Println(msg, emailAUTH)
 			/*
-			if err != nil {
-			fmt.Print("Error :", err)
-			}*/
-		
+				if err != nil {
+				fmt.Print("Error :", err)
+				}*/
+
 		}
 	}
 	/*connect.Con.Close()*/
 }
-
 
 func check(e error) {
 	if e != nil {
