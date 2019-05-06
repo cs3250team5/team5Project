@@ -79,6 +79,20 @@ func CreateDraft() {
 	}
 }
 
+func ReadTrash(draft string) {
+	//Reads draft
+	files, err := ioutil.ReadDir(trash)
+	if err != nil {
+		log.Fatal(err)
+	}
+	finalMap := make(map[int]MailObject)
+	for _, file := range files {
+		m := ReadMF(trash + "/" + file.Name())
+		finalMap[m.Num] = m
+	}
+	return finalMap
+}
+
 func check(e error) {
 	//Error check
 	if e != nil {
