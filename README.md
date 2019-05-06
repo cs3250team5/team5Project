@@ -47,5 +47,3 @@ The main menu will have two options.
 			delete
 
 
-
-[Back to top](team5Project)
