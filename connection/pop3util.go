@@ -36,7 +36,6 @@ func Pop3List(conn *Connection) string {
 	// Lists out all emails with data size
 	conn.Write("list\r\n")
 	s, _ := conn.ReadLines(1024)
-	fmt.Println("list got: " + s)
 
 	first, rest := util.FirstRest(s)
 	if first == "+OK" {

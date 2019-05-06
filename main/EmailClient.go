@@ -38,7 +38,6 @@ func main() {
 		log.Fatal(err)
 	}
 	s := connection.Pop3List(conn)
-	fmt.Println(s)
 	messages := connection.RetrieveAll(conn, connection.ExtractFromList(s))
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)

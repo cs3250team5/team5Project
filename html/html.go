@@ -21,6 +21,7 @@ func ReadHref(t html.Token) (ok bool, href string) {
 }
 
 func PullText(s string) string {
+	s = endlFixer(s)
 	links := ""
 	doc, err := html.Parse(strings.NewReader(s))
 	if err != nil {
@@ -74,5 +75,19 @@ func TextDecoder(s string) string {
 	s = strings.Replace(s, "=09", "", -1)
 	s = strings.Replace(s, "=E2=80=99", "'", -1)
 	s = strings.Replace(s, "=C2=A9", "©", -1)
+	s = strings.Replace(s, "=C2=A0", " ", -1)
 	return s
+}
+
+func endlFixer(s string) (finlines string) {
+	lines := strings.Split(s, "\n")
+	finlines = ""
+	for _, line := range lines {
+		if line[len(line)-1] != '=' {
+			finlines = finlines + line + "\n"
+		} else {
+			finlines = finlines + line[:len(line)-2]
+		}
+	}
+	return
 }

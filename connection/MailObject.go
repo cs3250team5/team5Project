@@ -60,7 +60,7 @@ func pullQuote(s string) string {
 }
 
 func fixBoundary(lines []string, boundary string) string {
-	// Gatters all lines of message and adjust boundarys
+	// Gathers all lines of message and adjust boundarys
 	message := ""
 	header, reader := false, false
 	for i, line := range lines {
@@ -70,7 +70,7 @@ func fixBoundary(lines []string, boundary string) string {
 				header = false
 			}
 		} else if reader == true {
-			if first == "--"+boundary {
+			if first == "--"+boundary || first == "--"+boundary+"--" {
 				break
 			}
 			message = message + "\n" + lines[i]
