@@ -15,14 +15,6 @@ func GetUsername() string {
 	return strings.TrimSpace(un)
 }
 
-func GetPassword() string {
-	//User types Password
-	fmt.Print("Enter your GMAIL password: ")
-	reader := bufio.NewReader(os.Stdin)
-	pw, _ := reader.ReadString('\n')
-	return strings.TrimSpace(pw)
-}
-
 func GetAppPassword() string {
 	//User types Password
 	fmt.Print("Enter your GMAIL App password: ")
