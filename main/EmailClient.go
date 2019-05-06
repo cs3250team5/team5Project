@@ -44,16 +44,6 @@ func main() {
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
 	menu.Menu()
-	/*
-		st := userInterface.RequestState()
-
-		if st == 2{
-			userInterface.InboxNavi()
-		}
-		if st == 1{
-			var g smtp.MailDraft
-			smtp.ComposeSend(g, "email", "sub", "msg")
-		}*/
 }
 
 func ParseConfig() (string, string) {
