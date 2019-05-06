@@ -1,6 +1,6 @@
-package userInterface
-/*
-import (
+package menu
+
+import(
 	"bufio"
 	"fmt"
 	"os"
@@ -15,7 +15,7 @@ states:
 1 - compose message
 2 - view inbox
 */
-/*
+
 func RequestState() int {
 	//Navigates through main menu
 	for {
@@ -50,8 +50,8 @@ func InboxNavi() {
 			InboxNavi()// recusive for error handling
 		}
 	}*/
-//}
-/*
+}
+
 func MailNavi(mails map[int]connection.MailObject) string{
 	//Lets user chose which email to read
 	fmt.Println("Please enter Email Number:")
@@ -81,4 +81,3 @@ func MainMenu(){
 		smtp.ComposeSend(g, "email", "sub", "msg")
 	}
 }
-*/

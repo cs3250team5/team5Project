@@ -1,6 +1,6 @@
-package userInterface
-/*
-import (
+package menu
+
+import(
 	"bufio"
 	"fmt"
 	"os"
@@ -15,7 +15,7 @@ states:
 1 - compose message
 2 - view inbox
 */
-/*
+
 func RequestState() int {
 	//Navigates through main menu
 	for {
@@ -50,8 +50,8 @@ func InboxNavi() {
 			InboxNavi()// recusive for error handling
 		}
 	}*/
-//}
-/*
+}
+
 func MailNavi(mails map[int]connection.MailObject) string{
 	//Lets user chose which email to read
 	fmt.Println("Please enter Email Number:")
@@ -61,8 +61,11 @@ func MailNavi(mails map[int]connection.MailObject) string{
 	connection.DisplayEmail(mails[resi])
 	fmt.Println("Open another email? Y/N")
 	res, _ = reader.ReadString('\n')
+	if strings.HasPrefix(res,"y")|| strings.HasPrefix(res,"Y"){
+			InboxNavi()
+		}
 	if strings.HasPrefix(res,"n")|| strings.HasPrefix(res,"N"){
-		MainMenu()
+		Menu()
 		return res
 	}
 	mails = connection.ReadInbox("Inbox")
@@ -70,7 +73,7 @@ func MailNavi(mails map[int]connection.MailObject) string{
 	return res
 }
 
-func MainMenu(){
+func Menu(){
 	st := RequestState()
 	
 	if st == 2{
@@ -81,4 +84,3 @@ func MainMenu(){
 		smtp.ComposeSend(g, "email", "sub", "msg")
 	}
 }
-*/

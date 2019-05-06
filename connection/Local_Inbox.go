@@ -5,10 +5,10 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	
 )
 
 func CheckInbox() bool {
+	//Looks to see if there an inbox
 	_, err := os.Stat("Inbox") //looking for path
 	if os.IsNotExist(err) {    //path does not exist
 		return false
@@ -16,18 +16,20 @@ func CheckInbox() bool {
 	return true
 }
 
-func CreateInbox() { //creates inbox dependant on boolean from CheckInbox()
+func CreateInbox() { 
+	//Creates inbox dependant on boolean from CheckInbox()
 	if !CheckInbox() {
 		os.Mkdir("Inbox", os.ModePerm)
 	}
 }
 
 func ReadInbox(inbox string) map[int]MailObject {
+	//Reads inbox
 	files, err := ioutil.ReadDir(inbox)
 	if err != nil {
 		log.Fatal(err)
 	}
-	finalMap := make(map[int]MailObject /*may change*/)
+	finalMap := make(map[int]MailObject)
 	for _, file := range files {
 		m := ReadMF(inbox + "/" + file.Name())
 		finalMap[m.Num] = m
@@ -36,6 +38,7 @@ func ReadInbox(inbox string) map[int]MailObject {
 }
 
 func WriteToInbox(m map[int]MailObject) {
+	//Fill in inbox
 	CreateInbox()
 	for v := range m {
 		Save(m[v])
@@ -43,6 +46,7 @@ func WriteToInbox(m map[int]MailObject) {
 }
 
 func Mail2Line(mail MailObject) string {
+	//Adds summary of each mail for inbox
 	str1 := fmt.Sprintf("%.40s",mail.From)
 	str2 := fmt.Sprintf("%.50s",mail.Subject)
 	str3 := fmt.Sprintf("%.16s",mail.Date)
@@ -51,6 +55,7 @@ func Mail2Line(mail MailObject) string {
 }
 
 func DisInbox(mail map[int]MailObject) {
+	//Makes Inbox look like and inbox
 	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
 	for m := range mail{
 		fmt.Printf(Mail2Line(mail[m]))
