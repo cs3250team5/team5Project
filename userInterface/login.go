@@ -25,7 +25,7 @@ func GetAppPassword() string {
 
 func GetUsernameAndPassword() []string {
 	un := GetUsername()
-	pw := GetPassword()
+	pw := GetAppPassword()
 	return []string{un, pw}
 }
 
