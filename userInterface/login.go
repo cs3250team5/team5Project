@@ -52,21 +52,3 @@ func GetMessageNumber() string {
 	messNo, _ := reader.ReadString('\n')
 	return strings.TrimSpace(messNo)
 }
-
-func HelpText() string {
-	//Helpful text for user
-	helpText := "Team 5 Mail Client Usage:\n" +
-		"Command line format:\n" +
-		"\"commandline [FLAG [argument]]*\"" +
-		"FLAGS:       Function:\n" +
-		"-un          Changes the Username across all scopes (pop/smtp)\n" +
-		"-pw          Changes the Password across all scope\n\n" +
-		"-p3un        Changes the Pop3 Username\n" +
-		"-p3pw        Changes the Pop3 Password\n\n" +
-		"-smtpun/-su  Changes the SMTP Username\n" +
-		"-smtppw/-sp  Changes the SMTP Password\n\n" +
-		"-host/-h     Changes the Host across all scopes\n" +
-		"-phost/-ph   Changes the Pop3 Host\n" +
-		"-shost/-sh   Changes the SMTP Host\n\n"
-	return helpText
-}
