@@ -2,7 +2,7 @@ package main
 
 import (
 	"Team5Project/connection"
-	"Team5Project/smtp"
+	"Team5Project/menu"
 	"Team5Project/userInterface"
 	"flag"
 	"fmt"
@@ -29,11 +29,12 @@ func main() {
 		*un = userInterface.GetUsername()
 	}
 	if *pw == "" {
-		*pw = userInterface.GetPassword()
+		*pw = userInterface.GetAppPassword()
 	}
 
 	conn, err := connection.Pop3Auth("pop.gmail.com", "995", *un, *pw)
 	defer conn.Close()
+
 	if err == "err" {
 		log.Fatal(err)
 	}
@@ -42,15 +43,27 @@ func main() {
 	fmt.Println("Messages Downloaded: ", len(messages))
 	connection.WriteToInbox(messages)
 	SaveConfig(*un, *pw)
-	MainLoop(conn)
+	menu.Menu()
+	/*
+		st := userInterface.RequestState()
 
+		if st == 2{
+			userInterface.InboxNavi()
+		}
+		if st == 1{
+			var g smtp.MailDraft
+			smtp.ComposeSend(g, "email", "sub", "msg")
+		}*/
 }
 
 func ParseConfig() (string, string) {
+	//Configs your username and password
 	config, err := ioutil.ReadFile(".config")
+
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	conStr := string(config)
 	lines := strings.Split(conStr, "\n")
 	un := strings.TrimSpace(lines[0])
@@ -58,34 +71,19 @@ func ParseConfig() (string, string) {
 	return un, pw
 }
 
-func MainLoop(conn *connection.Connection) {
-	for {
-		st := userInterface.RequestState()
-		if st == 2 {
-			userInterface.InboxNavi(conn)
-		}
-		if st == 1 {
-			var g smtp.MailDraft
-			smtp.ComposeSend(g, "email", "sub", "msg")
-		}
-		if st == 3 {
-			break
-		}
-	}
-}
-
 /*
 Config file layout:
 username
 password
 */
+
 func SaveConfig(un, pw string) {
+	//Saves your configs
 	file, err := os.OpenFile(".config", os.O_TRUNC|os.O_CREATE, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
-
 	bytes := []byte(fmt.Sprintf("%s\n%s", un, pw))
 	file.Write(bytes)
 }

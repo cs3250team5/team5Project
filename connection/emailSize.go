@@ -1,5 +1,6 @@
-package connection
 
+package connection
+/*
 import (
 	"strconv"
 	"strings"
@@ -20,3 +21,4 @@ func ExtractFromList(s string) map[int]int {
 	}
 	return listMap
 }
+*/

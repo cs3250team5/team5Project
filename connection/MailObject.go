@@ -3,6 +3,7 @@ package connection
 import (
 	"Team5Project/html"
 	"fmt"
+	"hash/fnv"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -111,12 +112,14 @@ func cleanFrom(s string) string {
 }
 
 func cleanDate(s string) string {
+	//Makes Dates easier to read
 	date := strings.Replace(readUntil(s, "-"), " ", "-", -1)
 	date = strings.Replace(date, "-", " ", -1)
 	return date
 }
 
 func clean(s string) string {
+	//Makes email easier to read
 	var reserved = [...]string{"/", "\\", "?", "%", "*", ":", "|", "\"", "<", ">", "."}
 	str := s
 	for _, c := range reserved {
@@ -189,12 +192,14 @@ func ReadMF(file string) MailObject {
 }
 
 func check(e error) {
+	//Error check
 	if e != nil {
 		panic(e)
 	}
 }
 
-func DisEmail(mail MailObject) {
+func DisplayEmail(mail MailObject) {
+	//Desplays emails nicely
 	str1 := fmt.Sprintf("%.40s", mail.From)
 	str2 := fmt.Sprintf("%.50s", mail.Subject)
 	str3 := fmt.Sprintf("%.16s", mail.Date)
@@ -203,4 +208,17 @@ func DisEmail(mail MailObject) {
 	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
 	fmt.Println(mail.Message)
 	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+}
+
+func HashMailNumber(mail MailObject) uint32 {
+	//Turing From and Date into one number
+	var strs []string
+	from := mail.From
+	date := mail.Date
+	strs = append(strs, from, date)
+	HashString := strings.Join(strs, "")
+	Hash := fnv.New32a()
+	Hash.Write([]byte(HashString)) // converting From to []byte
+	HashNumber := Hash.Sum32()     // converting []byte to unit 32
+	return HashNumber
 }

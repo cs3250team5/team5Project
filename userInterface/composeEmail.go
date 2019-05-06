@@ -8,8 +8,7 @@ import (
 )
 
 func EmailTo() string {
-
-	// user writes message to
+	//User writes message to
 	fmt.Print("To: ")
 	reader := bufio.NewReader(os.Stdin)
 	to, _ := reader.ReadString('\n')
@@ -17,8 +16,7 @@ func EmailTo() string {
 }
 
 func EmailSubject() string {
-
-	// user tpyes subject of email
+	//User tpyes subject of email
 	fmt.Print("Subject: ")
 	reader := bufio.NewReader(os.Stdin)
 	sub, _ := reader.ReadString('\n')
@@ -26,7 +24,7 @@ func EmailSubject() string {
 }
 
 func EmailMsg() string {
-	// User types message
+	//User types message
 	var userInput string
 	fmt.Print("Write message: ")
 	scanner := bufio.NewScanner(os.Stdin)
@@ -36,8 +34,6 @@ func EmailMsg() string {
 			break
 		}
 		userInput = userInput + line + "\n"
-
 	}
-
 	return userInput
 }

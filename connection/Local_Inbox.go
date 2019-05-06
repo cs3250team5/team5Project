@@ -1,14 +1,14 @@
 package connection
 
-import (	
+import (
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
-	"path/filepath"
 )
 
 func CheckInbox() bool {
+	//Looks to see if there an inbox
 	_, err := os.Stat("Inbox") //looking for path
 	if os.IsNotExist(err) {    //path does not exist
 		return false
@@ -16,18 +16,20 @@ func CheckInbox() bool {
 	return true
 }
 
-func CreateInbox() { //creates inbox dependant on boolean from CheckInbox()
+func CreateInbox() {
+	//Creates inbox dependant on boolean from CheckInbox()
 	if !CheckInbox() {
 		os.Mkdir("Inbox", os.ModePerm)
 	}
 }
 
 func ReadInbox(inbox string) map[int]MailObject {
+	//Reads inbox
 	files, err := ioutil.ReadDir(inbox)
 	if err != nil {
 		log.Fatal(err)
 	}
-	finalMap := make(map[int]MailObject /*may change*/)
+	finalMap := make(map[int]MailObject)
 	for _, file := range files {
 		m := ReadMF(inbox + "/" + file.Name())
 		finalMap[m.Num] = m
@@ -36,41 +38,44 @@ func ReadInbox(inbox string) map[int]MailObject {
 }
 
 func WriteToInbox(m map[int]MailObject) {
+	//Fill in inbox
 	CreateInbox()
 	for v := range m {
 		Save(m[v])
 	}
 }
 
-func ClearInbox(dir string) error{
+func ClearInbox(dir string) error {
 	d, err := os.Open(dir)
-    if err != nil {
-        return err
-    }
-    defer d.Close()
-    names, err := d.Readdirnames(-1)
-    if err != nil {
-        return err
-    }
-    for _, name := range names {
-        err = os.RemoveAll(filepath.Join(dir, name))
-        if err != nil {
-            return err
-        }
-    }
-    return nil
+	if err != nil {
+		return err
+	}
+	defer d.Close()
+	names, err := d.Readdirnames(-1)
+	if err != nil {
+		return err
+	}
+	for _, name := range names {
+		err = os.RemoveAll(filepath.Join(dir, name))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 func Mail2Line(mail MailObject) string {
-	str1 := fmt.Sprintf("%.40s",mail.From)
-	str2 := fmt.Sprintf("%.50s",mail.Subject)
-	str3 := fmt.Sprintf("%.16s",mail.Date)
-	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|",mail.Num,str1,str2,str3)
+	//Adds summary of each mail for inbox
+	str1 := fmt.Sprintf("%.40s", mail.From)
+	str2 := fmt.Sprintf("%.50s", mail.Subject)
+	str3 := fmt.Sprintf("%.16s", mail.Date)
+	str := fmt.Sprintf("|%-4d|%-40s|%-50s|%-16s|", mail.Num, str1, str2, str3)
 	return str
 }
 
 func DisInbox(mail map[int]MailObject) {
+	//Makes Inbox look like and inbox
 	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
-	for m := range mail{
+	for m := range mail {
 		fmt.Printf(Mail2Line(mail[m]))
 		fmt.Println()
 		fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")

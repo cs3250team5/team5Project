@@ -29,17 +29,17 @@ func (connect *Connection) Open(host string, port string) {
 }
 
 func (connect *Connection) ReadLines(bytes int) (string, error) {
-	// Checks errors
+	//Checks errors
 	message, err := connect.ReadN(bytes)
 	if err != nil && err.Error() != "EOF" {
 		return "", err
 	}
-	// Split stirng and ignors last 2 lines
+	//Split stirng and ignors last 2 lines
 	message = cleanInput(message)
 	if lines := strings.Split(message, "\n"); lines[len(lines)-2] == "." {
 		return message, nil
 	}
-	// Checks errors and splits strings and igors last 2 lines
+	//Checks errors and splits strings and igors last 2 lines
 	for {
 		mess, err := connect.ReadN(bytes)
 		if err != nil && err.Error() != "EOF" {
@@ -54,7 +54,7 @@ func (connect *Connection) ReadLines(bytes int) (string, error) {
 }
 
 func (connect *Connection) Read() (string, error) {
-	// Makes Memory and checks errors
+	//Makes Memory and checks errors
 	buffer := make([]byte, 1024)
 	numBytes, err := connect.Con.Read(buffer)
 	if err != nil && err.Error() != "EOF" {
@@ -64,7 +64,7 @@ func (connect *Connection) Read() (string, error) {
 }
 
 func (connect *Connection) ReadN(n int) (string, error) {
-	// Makes Memoyr and checks errors
+	//Makes Memory and checks errors
 	buffer := make([]byte, n*2)
 	numBytes, err := connect.Con.Read(buffer)
 	if err != nil && err.Error() != "EOF" {
@@ -83,7 +83,7 @@ func (connect *Connection) Close() {
 	fmt.Println("Connection Closed")
 }
 
-// Removes \r from incoming strings
 func cleanInput(s string) string {
+	//Removes \r from incoming strings
 	return strings.Replace(s, "\r", "", -1)
 }

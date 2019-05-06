@@ -8,25 +8,15 @@ import (
 )
 
 func GetUsername() string {
-	// user types username
+	//User types username
 	fmt.Print("Enter your GMAIL username: ")
 	reader := bufio.NewReader(os.Stdin)
 	un, _ := reader.ReadString('\n')
 	return strings.TrimSpace(un)
 }
 
-func GetPassword() string {
-
-	// User types Password
-	fmt.Print("Enter your GMAIL password: ")
-	reader := bufio.NewReader(os.Stdin)
-	pw, _ := reader.ReadString('\n')
-	return strings.TrimSpace(pw)
-}
-
 func GetAppPassword() string {
-
-	// User types Password
+	//User types Password
 	fmt.Print("Enter your GMAIL App password: ")
 	reader := bufio.NewReader(os.Stdin)
 	pw, _ := reader.ReadString('\n')
@@ -35,12 +25,12 @@ func GetAppPassword() string {
 
 func GetUsernameAndPassword() []string {
 	un := GetUsername()
-	pw := GetPassword()
+	pw := GetAppPassword()
 	return []string{un, pw}
 }
 
-//Reads and interprets Yes/No Answers from the user. Does not ask questions
 func yesNo() bool {
+	//Reads and interprets Yes/No Answers from the user. Does not ask questions
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		ans, _ := reader.ReadString('\n')
@@ -56,8 +46,7 @@ func yesNo() bool {
 }
 
 func GetMessageNumber() string {
-
-	// User types in Message number
+	//User types in Message number
 	fmt.Print("Which message to read/download: ")
 	reader := bufio.NewReader(os.Stdin)
 	messNo, _ := reader.ReadString('\n')
@@ -65,6 +54,7 @@ func GetMessageNumber() string {
 }
 
 func HelpText() string {
+	//Helpful text for user
 	helpText := "Team 5 Mail Client Usage:\n" +
 		"Command line format:\n" +
 		"\"commandline [FLAG [argument]]*\"" +
