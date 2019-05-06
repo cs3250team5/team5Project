@@ -83,9 +83,9 @@ func endlFixer(s string) (finlines string) {
 	lines := strings.Split(s, "\n")
 	finlines = ""
 	for _, line := range lines {
-		if line[len(line)-1] != '=' {
+		if len(line) > 0 && line[len(line)-1] != '=' {
 			finlines = finlines + line + "\n"
-		} else {
+		} else if len(line) > 1 {
 			finlines = finlines + line[:len(line)-2]
 		}
 	}
