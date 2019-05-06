@@ -29,7 +29,12 @@ func RequestState() int {
 
 func InboxNavi(conn *connection.Connection) {
 	mails := connection.ReadInbox("Inbox")
-	connection.DisInbox(mails)
+	if len(mails) > 0 {
+		connection.DisInbox(mails)
+	} else {
+		fmt.Println("No Messages in Inbox")
+		return
+	}
 	fmt.Println("Open email? Y/N")
 	reader := bufio.NewReader(os.Stdin)
 	resi, _ := reader.ReadString('\n')
