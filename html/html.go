@@ -76,6 +76,7 @@ func TextDecoder(s string) string {
 	s = strings.Replace(s, "=E2=80=99", "'", -1)
 	s = strings.Replace(s, "=C2=A9", "©", -1)
 	s = strings.Replace(s, "=C2=A0", " ", -1)
+	s = strings.Replace(s, "=E2=80=94", "!", -1)
 	return s
 }
 

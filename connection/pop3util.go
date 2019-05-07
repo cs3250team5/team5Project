@@ -12,12 +12,12 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 	//Checks to see if the username is correct
 	conn := MakeConnection(host, port)
 	s, _ := conn.Read()
-	
+
 	if check, _ := util.FirstRest(s); check != "+OK" {
 		fmt.Println("Login Failed")
 		return conn, "err"
 	}
-	
+
 	conn.Write("USER " + un + "\r\n")
 	//Checks to see if password is correct
 	s1, _ := conn.Read()
@@ -25,7 +25,7 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 		log.Fatal("Login Failed - Username Rejected")
 		return conn, "err"
 	}
-	
+
 	conn.Write("PASS " + pw + "\r\n")
 	//Checks to see if username and password is correct
 	s2, _ := conn.Read()
@@ -61,7 +61,7 @@ func ExtractFromList(s string) map[int]int {
 	//Puts message number and data size into a map
 	lines := strings.Split(s, "\n")
 	listMap := make(map[int]int)
-	
+
 	for _, line := range lines[1 : len(lines)-2] {
 		y := strings.Split(line, " ")
 		key, err := strconv.Atoi(y[0])
@@ -72,7 +72,6 @@ func ExtractFromList(s string) map[int]int {
 	}
 	return listMap
 }
-
 
 func RetrieveAll(conn *Connection, listMap map[int]int) map[int]MailObject {
 	//Emails are put into maps based on data size
@@ -94,4 +93,5 @@ func Pop3Del(conn *Connection, I int) {
 	if first == "+OK" {
 		fmt.Println(first)
 	}
+
 }

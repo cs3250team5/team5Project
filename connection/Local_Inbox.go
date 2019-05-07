@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 )
 
 func CheckInbox() bool {
@@ -76,9 +77,16 @@ func Mail2Line(mail MailObject) string {
 func DisInbox(mail map[int]MailObject) {
 	//Makes Inbox look like and inbox
 	fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
-	for m := range mail {
-		fmt.Printf(Mail2Line(mail[m]))
-		fmt.Println()
-		fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+	var keys []int
+	for k := range mail {
+		keys = append(keys, k)
+	}
+	sort.Sort(sort.Reverse(sort.IntSlice(keys)))
+	for m := range keys {
+		if m > 0 {
+			fmt.Printf(Mail2Line(mail[m]))
+			fmt.Println()
+			fmt.Println("```````````````````````````````````````````````````````````````````````````````````````````````````````````````````")
+		}
 	}
 }
