@@ -9,7 +9,7 @@ import (
 )
 
 func Pop3Auth(host string, port string, un string, pw string) (*Connection, string) {
-	//Checks to see if the username is correct
+	//Checks to see if the username and password is correct
 	conn := MakeConnection(host, port)
 	s, _ := conn.Read()
 
@@ -19,7 +19,7 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 	}
 
 	conn.Write("USER " + un + "\r\n")
-	//Checks to see if password is correct
+	//Checks to see if username is correct
 	s1, _ := conn.Read()
 	if check, _ := util.FirstRest(s1); check != "+OK" {
 		log.Fatal("Login Failed - Username Rejected")
@@ -27,7 +27,7 @@ func Pop3Auth(host string, port string, un string, pw string) (*Connection, stri
 	}
 
 	conn.Write("PASS " + pw + "\r\n")
-	//Checks to see if username and password is correct
+	//Checks to see if password is correct
 	s2, _ := conn.Read()
 	if check, _ := util.FirstRest(s2); check != "+OK" {
 		fmt.Println("Login Failed - Password Rejected")

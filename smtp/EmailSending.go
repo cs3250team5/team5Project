@@ -9,13 +9,24 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+	"io/ioutil"
+	"log"
 )
 
 type MailDraft struct {
 	To, Subject, Message string
 }
 
-func ComposeSend(draft MailDraft, EmailTo string, EmailSubject string, EmailMsg string) {
+func ComposeSend(draft MailDraft, EmailTo string, EmailSubject string, EmailMsg string ){
+
+	var defaultUN, defaultPW string
+
+		if _, err := os.Stat(".config"); !os.IsNotExist(err) {
+			defaultUN, defaultPW = ParseConfig()
+		} else {
+			defaultUN, defaultPW = "", ""
+		}
+
 	//Creating the email
 	emailReciever := userInterface.EmailTo()
 	sub := userInterface.EmailSubject()
@@ -24,11 +35,11 @@ func ComposeSend(draft MailDraft, EmailTo string, EmailSubject string, EmailMsg 
 	//Configuration
 	hostURL := "smtp.gmail.com"
 	hostPORT := "587"
-	emailSender := "cs3250Team5Relay"
-	password := "bdexlpeeudlnsuwy"
-
+	username := defaultUN
+	password := defaultPW
+	
 	//Creating auth object
-	emailAUTH := smtp.PlainAuth("", emailSender, password, hostURL)
+	emailAUTH := smtp.PlainAuth("", username, password, hostURL)
 	msg := []byte("To: " + emailReciever + "\r\n" + "Subject :" + sub + "\r\n" + writeMsg)
 
 	//User decides whether to save and send
@@ -39,11 +50,12 @@ func ComposeSend(draft MailDraft, EmailTo string, EmailSubject string, EmailMsg 
 
 	//Send the mail
 	if strings.HasPrefix(choice, "s") || strings.HasPrefix(choice, "S") {
-		err := smtp.SendMail(hostURL+":"+hostPORT, emailAUTH, emailSender, []string{emailReciever}, msg)
+		err := smtp.SendMail(hostURL+":"+hostPORT, emailAUTH, username, []string{emailReciever}, msg)
 		if err != nil {
 			fmt.Print("Error :", err)
 		}
-		fmt.Println(" email sent to " + emailReciever)
+		fmt.Println("email sent to " + emailReciever)
+
 	}
 	//Draft mail
 	if strings.HasPrefix(choice, "d") || strings.HasPrefix(choice, "D") {
@@ -64,6 +76,21 @@ func ComposeSend(draft MailDraft, EmailTo string, EmailSubject string, EmailMsg 
 	}
 }
 
+func ParseConfig() (string, string) {
+	//Configs your username and password
+	config, err := ioutil.ReadFile(".config")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	conStr := string(config)
+	lines := strings.Split(conStr, "\n")
+	un := strings.TrimSpace(lines[0])
+	pw := strings.TrimSpace(lines[1])
+	return un, pw
+}
+
 func CheckDraft() bool {
 	//Looks to see if there an draft
 	_, err := os.Stat("draft") //looking for path
@@ -80,21 +107,6 @@ func CreateDraft() {
 	}
 }
 
-/*
-func ReadTrash(draft string) {
-	//Reads draft
-	files, err := ioutil.ReadDir(trash)
-	if err != nil {
-		log.Fatal(err)
-	}
-	finalMap := make(map[int]connection.MailObject)
-	for _, file := range files {
-		m := connection.ReadMF(trash + "/" + file.Name())
-		finalMap[m.Num] = m
-	}
-	return finalMap
-}
-*/
 func check(e error) {
 	//Error check
 	if e != nil {
